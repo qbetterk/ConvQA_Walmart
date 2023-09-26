@@ -1,0 +1,282 @@
+[
+  {
+    "sample_item": {
+      "category": "television",
+      "brand": "Samsung",
+      "rating": 3.4,
+      "screen_size": "37 inches",
+      "price": 854,
+      "shipping": "Free",
+      "condition": "Poor",
+      "Touchscreen": "Yes",
+      "Batteries Included": "No",
+      "Wireless Connectivity": "Yes",
+      "Resolution": "720p (1280 x 720 pixels)",
+      "Refresh Rate": "60Hz"
+    },
+    "question": "Can I return the Samsung television if I am not satisfied with the condition?",
+    "answer": "Yes, you can return the Samsung television if you are not satisfied with the condition. However, please note that the condition of the television is listed as \"Poor,\" so it is important to carefully consider this before making a purchase. Additionally, it is advisable to review the return policy of the specific retailer or website from which you are purchasing the television, as their policies may vary."
+  },
+  {
+    "sample_item": {
+      "category": "television",
+      "brand": "Samsung",
+      "rating": 3.4,
+      "screen_size": "37 inches",
+      "price": 854,
+      "shipping": "Free",
+      "condition": "Poor",
+      "Touchscreen": "Yes",
+      "Batteries Included": "No",
+      "Wireless Connectivity": "Yes",
+      "Resolution": "720p (1280 x 720 pixels)",
+      "Refresh Rate": "60Hz"
+    },
+    "question": "Does the Samsung television come with a warranty?",
+    "answer": "Yes, the Samsung television comes with a warranty. However, the specific details of the warranty may vary depending on the retailer or seller. It is recommended to check with the seller or refer to the product listing for more information about the warranty coverage and duration."
+  },
+  {
+    "sample_item": {
+      "category": "television",
+      "brand": "Samsung",
+      "rating": 3.4,
+      "screen_size": "37 inches",
+      "price": 854,
+      "shipping": "Free",
+      "condition": "Poor",
+      "Touchscreen": "Yes",
+      "Batteries Included": "No",
+      "Wireless Connectivity": "Yes",
+      "Resolution": "720p (1280 x 720 pixels)",
+      "Refresh Rate": "60Hz"
+    },
+    "question": "Can I connect my wireless devices to the Samsung television?",
+    "answer": "Yes, you can connect your wireless devices to the Samsung television. It has wireless connectivity, allowing you to connect your devices such as smartphones, tablets, and laptops to the TV wirelessly. This feature enables you to stream content from your devices directly to the television screen, making it convenient to enjoy your favorite movies, videos, and photos on a larger display."
+  },
+  {
+    "sample_item": {
+      "category": "television",
+      "brand": "Samsung",
+      "rating": 3.4,
+      "screen_size": "37 inches",
+      "price": 854,
+      "shipping": "Free",
+      "condition": "Poor",
+      "Touchscreen": "Yes",
+      "Batteries Included": "No",
+      "Wireless Connectivity": "Yes",
+      "Resolution": "720p (1280 x 720 pixels)",
+      "Refresh Rate": "60Hz"
+    },
+    "question": "What is the difference between 720p and 1080p resolution on the Samsung television?",
+    "answer": "The difference between 720p and 1080p resolution on the Samsung television is in the number of pixels displayed on the screen. \n\n720p resolution refers to a display with 1280 x 720 pixels, which means there are 1280 pixels horizontally and 720 pixels vertically. This resolution is considered high definition (HD) and provides a clear and detailed picture. However, it is not as sharp as 1080p resolution.\n\nOn the other hand, 1080p resolution refers to a display with 1920 x 1080 pixels, which means there are 1920 pixels horizontally and 1080 pixels vertically. This resolution is also considered high definition (HD) but offers a higher level of detail and sharpness compared to 720p. With more pixels, the image appears crisper and more lifelike.\n\nIn summary, the main difference between 720p and 1080p resolution on the Samsung television is the number of pixels displayed on the screen. 1080p resolution provides a higher level of detail and sharpness compared to 720p, resulting in a more immersive viewing experience."
+  },
+  {
+    "sample_item": {
+      "category": "television",
+      "brand": "Samsung",
+      "rating": 3.4,
+      "screen_size": "37 inches",
+      "price": 854,
+      "shipping": "Free",
+      "condition": "Poor",
+      "Touchscreen": "Yes",
+      "Batteries Included": "No",
+      "Wireless Connectivity": "Yes",
+      "Resolution": "720p (1280 x 720 pixels)",
+      "Refresh Rate": "60Hz"
+    },
+    "question": "Is the Samsung television compatible with gaming consoles?",
+    "answer": "Yes, the Samsung television is compatible with gaming consoles. It has a screen size of 37 inches, which provides a good gaming experience. The television also has a 720p resolution, which is suitable for gaming. Additionally, it has a refresh rate of 60Hz, which ensures smooth gameplay. The wireless connectivity feature allows you to connect your gaming console without the need for cables. However, please note that the condition of the television is listed as poor, so it may have some cosmetic flaws or functional issues."
+  },
+  {
+    "sample_item": {
+      "category": "television",
+      "brand": "Samsung",
+      "rating": 3.4,
+      "screen_size": "37 inches",
+      "price": 854,
+      "shipping": "Free",
+      "condition": "Poor",
+      "Touchscreen": "Yes",
+      "Batteries Included": "No",
+      "Wireless Connectivity": "Yes",
+      "Resolution": "720p (1280 x 720 pixels)",
+      "Refresh Rate": "60Hz"
+    },
+    "question": "Can I mount the Samsung television on the wall?",
+    "answer": "Yes, you can mount the Samsung television on the wall. However, please note that the condition of the television is listed as \"Poor,\" so it is important to ensure that the mounting process is done carefully and securely. Additionally, please keep in mind that the television has a screen size of 37 inches and a resolution of 720p."
+  },
+  {
+    "sample_item": {
+      "category": "television",
+      "brand": "Samsung",
+      "rating": 3.4,
+      "screen_size": "37 inches",
+      "price": 854,
+      "shipping": "Free",
+      "condition": "Poor",
+      "Touchscreen": "Yes",
+      "Batteries Included": "No",
+      "Wireless Connectivity": "Yes",
+      "Resolution": "720p (1280 x 720 pixels)",
+      "Refresh Rate": "60Hz"
+    },
+    "question": "How long does it take for the Samsung television to be delivered?",
+    "answer": "The Samsung television typically takes 3-5 business days to be delivered. However, please note that delivery times may vary depending on your location and the shipping method chosen."
+  },
+  {
+    "sample_item": {
+      "category": "television",
+      "brand": "Samsung",
+      "rating": 3.4,
+      "screen_size": "37 inches",
+      "price": 854,
+      "shipping": "Free",
+      "condition": "Poor",
+      "Touchscreen": "Yes",
+      "Batteries Included": "No",
+      "Wireless Connectivity": "Yes",
+      "Resolution": "720p (1280 x 720 pixels)",
+      "Refresh Rate": "60Hz"
+    },
+    "question": "Can I use a universal remote with the Samsung television?",
+    "answer": "Yes, you can use a universal remote with the Samsung television. The television does not come with batteries included, so you will need to purchase them separately for the remote. The Samsung television also has wireless connectivity, which means you can connect it to other devices such as a universal remote. The television has a touchscreen feature, but it is not specified whether the universal remote can be operated through the touchscreen. The resolution of the television is 720p, which means it has a resolution of 1280 x 720 pixels. The refresh rate of the television is 60Hz. Please note that the condition of the television is listed as poor, so you may want to consider this before purchasing. The price of the television is $854 and it comes with free shipping."
+  },
+  {
+    "sample_item": {
+      "category": "vacuum",
+      "brand": "Shark",
+      "rating": 2.4,
+      "weight": "21 pounds",
+      "price": 358,
+      "shipping": "Free",
+      "color": "black",
+      "Bagless": "No",
+      "Cordless": "Yes",
+      "Washable Filter": "No",
+      "Recommended Surface": "N/A"
+    },
+    "question": "Is the Shark vacuum bagless or does it require bags?",
+    "answer": "The Shark vacuum is not bagless and it does require bags."
+  },
+  {
+    "sample_item": {
+      "category": "vacuum",
+      "brand": "Shark",
+      "rating": 2.4,
+      "weight": "21 pounds",
+      "price": 358,
+      "shipping": "Free",
+      "color": "black",
+      "Bagless": "No",
+      "Cordless": "Yes",
+      "Washable Filter": "No",
+      "Recommended Surface": "N/A"
+    },
+    "question": "Can the Shark vacuum be used on all types of surfaces?",
+    "answer": "The Shark vacuum is recommended for use on all types of surfaces. It is designed to effectively clean carpets, hardwood floors, tile, and other surfaces. However, please note that the recommended surface for this vacuum is not specified in the product information. It is always a good idea to check the manufacturer's instructions or consult customer reviews to ensure that the vacuum is suitable for your specific surface type."
+  },
+  {
+    "sample_item": {
+      "category": "vacuum",
+      "brand": "Shark",
+      "rating": 2.4,
+      "weight": "21 pounds",
+      "price": 358,
+      "shipping": "Free",
+      "color": "black",
+      "Bagless": "No",
+      "Cordless": "Yes",
+      "Washable Filter": "No",
+      "Recommended Surface": "N/A"
+    },
+    "question": "How much does the Shark vacuum weigh?",
+    "answer": "The Shark vacuum weighs 21 pounds."
+  },
+  {
+    "sample_item": {
+      "category": "vacuum",
+      "brand": "Shark",
+      "rating": 2.4,
+      "weight": "21 pounds",
+      "price": 358,
+      "shipping": "Free",
+      "color": "black",
+      "Bagless": "No",
+      "Cordless": "Yes",
+      "Washable Filter": "No",
+      "Recommended Surface": "N/A"
+    },
+    "question": "Is the filter in the Shark vacuum washable?",
+    "answer": "No, the filter in the Shark vacuum is not washable."
+  },
+  {
+    "sample_item": {
+      "category": "vacuum",
+      "brand": "Shark",
+      "rating": 2.4,
+      "weight": "21 pounds",
+      "price": 358,
+      "shipping": "Free",
+      "color": "black",
+      "Bagless": "No",
+      "Cordless": "Yes",
+      "Washable Filter": "No",
+      "Recommended Surface": "N/A"
+    },
+    "question": "Does the Shark vacuum come in any other colors besides black?",
+    "answer": "No, the Shark vacuum only comes in black."
+  },
+  {
+    "sample_item": {
+      "category": "vacuum",
+      "brand": "Shark",
+      "rating": 2.4,
+      "weight": "21 pounds",
+      "price": 358,
+      "shipping": "Free",
+      "color": "black",
+      "Bagless": "No",
+      "Cordless": "Yes",
+      "Washable Filter": "No",
+      "Recommended Surface": "N/A"
+    },
+    "question": "Is the Shark vacuum cordless or does it require a cord?",
+    "answer": "The Shark vacuum is cordless, meaning it does not require a cord to operate. This allows for greater flexibility and ease of use, as you are not limited by the length of a cord. The vacuum is powered by a rechargeable battery, which provides ample power for cleaning tasks."
+  },
+  {
+    "sample_item": {
+      "category": "vacuum",
+      "brand": "Shark",
+      "rating": 2.4,
+      "weight": "21 pounds",
+      "price": 358,
+      "shipping": "Free",
+      "color": "black",
+      "Bagless": "No",
+      "Cordless": "Yes",
+      "Washable Filter": "No",
+      "Recommended Surface": "N/A"
+    },
+    "question": "What is the rating of the Shark vacuum?",
+    "answer": "The rating of the Shark vacuum is 2.4 out of 5."
+  },
+  {
+    "sample_item": {
+      "category": "vacuum",
+      "brand": "Shark",
+      "rating": 2.4,
+      "weight": "21 pounds",
+      "price": 358,
+      "shipping": "Free",
+      "color": "black",
+      "Bagless": "No",
+      "Cordless": "Yes",
+      "Washable Filter": "No",
+      "Recommended Surface": "N/A"
+    },
+    "question": "Is the Shark vacuum eligible for free shipping?",
+    "answer": "Yes, the Shark vacuum is eligible for free shipping."
+  }
+]
