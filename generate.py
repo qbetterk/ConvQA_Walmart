@@ -13,9 +13,12 @@ random.seed(42)
 class GPTGenerator(object):
     def __init__(self, args) -> None:
         self.args = args
-        self.save_dir = "./result"
-        # self.save_filename = f"gen_q{args.q_model_version}_a{args.a_model_version}_item{args.sample_num}_qnum{args.question_num}.json"
-        self.save_path = "./result/gen_q_test_10.json"
+        self.save_dir = "./data/result_gen"
+        self.prompt_filename = "prompt"
+        self.prompt_filename = "prompt_casual_2"
+        self.prompt_path = f"./prompt/{self.prompt_filename}.txt"
+        self.save_filename = f"gen_q_test_10_{self.prompt_filename}"
+        self.save_path = f"./data/result_gen/{self.save_filename}.json"
         self.random_seed = args.seed
         self._set_seed()
 
@@ -32,6 +35,19 @@ class GPTGenerator(object):
             data = json.loads(df.read())
         return data
     
+    def _load_txt(self, path=None, split_tok="\n"):
+        if path is None or not os.path.exists(path):
+            raise IOError('File does not exist: %s' % path)
+        with open(path) as df:
+            data = df.read().strip().split(split_tok)
+        return data
+
+    def _load_csv(self, path=None, sep=","):
+        if path is None or not os.path.exists(path):
+            raise IOError('File does not exist: %s' % path)
+        with open(path) as df:
+            data = pd.read_csv(df, sep=sep)
+        return data
 
     def _save_json(self, data, file_path):
         dir_path = "/".join(file_path.split("/")[:-1])
@@ -102,35 +118,48 @@ class GPTGenerator(object):
 
     def parse_output(self, output):
         question_list = output.split("\n")
-        for idx in range(len(question_list)):
-            if question_list[idx][1:].startswith(". "):
-                question_list[idx] = question_list[idx][3:]
+        # for idx in range(len(question_list)):
+        #     if question_list[idx][1:].startswith(". "):
+        #         question_list[idx] = question_list[idx][3:]
         return question_list
 
-    def generate_q(self):
+    def generate_q_with_item(self):
         """
         based on sampled item, along with its attributes, generate a question"""
-        question_prompt = "You are trying to generate variations of diverse customer questions about products within the {category} category. \nPlease come up with {question_num} questions that customers might possibly ask, even those that are specific and technical. Feel free to be creative in your questions.\nThe Questions should be concerning with this product:\n{information}\nQuestions:\n1."
+        # question_prompt = "You are trying to generate variations of diverse customer questions about products within the {category} category. \nPlease come up with {question_num} questions that customers might possibly ask, even those that are specific and technical. Feel free to be creative in your questions.\nThe Questions should be concerning with this product:\n{information}\nQuestions:\n1."
+        question_prompt = open(self.prompt_path).read() + "\n"
         sample_num = 10 # number of sampled items
         question_num = 8 # relevant question for each sampled item
         data = []
-        for _ in range(1000):
-            sample_item = self.sample()
-            information = "\n".join([f"{feature}: {value}" for feature, value in sample_item.items()])
-            input_seq = question_prompt.format(category=sample_item["category"], question_num=question_num, information=information)
-            output = openai_api_chat(self.args,  input_seq=input_seq)
-            for question in self.parse_output(output):
-                answer = self.generate_a(category=sample_item["category"], information=information, question=question)
-                data.append({
-                    "sample_item": sample_item,
-                    # "information": information,
-                    "question": question,
-                    "answer": answer,
-                })
-            if len(data) >= sample_num:
-                break
-        self._save_json(data, self.save_path)
+        # for _ in range(1000):
+        sample_item = self.sample()
+        information = "\n".join([f"{feature}: {value}" for feature, value in sample_item.items()])
+        input_seq = question_prompt.format(category=sample_item["category"], 
+                                            question_num=question_num, 
+                                            information=information)
+        output = openai_api_chat(self.args,  input_seq=input_seq)
+        self._save_json(self.parse_output(output), self.save_path)
 
+    def generate_q_attr(self):
+        """
+        based on sampled attribute, generate a question"""
+        SYS_PROMPT = (
+            "As a customer interested in purchasing a {category}, you're currently exploring its webpage. "
+            "What inquiries would you make to a sales representative about this product? "
+            "You can ask in a relaxed, informal style, and your questions don't need to be in complete sentences. "
+            "You will be given a specific feature, and your question should pertain to that feature. Please phrase your question directly."
+        )
+
+        attribute_path = "./data/from_walmart/attributes/vacuum_product_attributes.txt"
+        attrs = self._load_txt(attribute_path)
+        # attr = random.sample(attrs)
+        questions = {}
+        for attr in tqdm(attrs):
+            if attr.endswith("_1"): attr = attr.split("_1")[0]
+            system_prompt = SYS_PROMPT.format(category="vacuum")
+            output = openai_api_chat(self.args, input_seq=attr, system_prompt=system_prompt)
+            questions[attr] = output
+        self._save_json(questions, "./result_gen_attr_vacuum.json")
 
     def generate_a(self, category, information, question):
         """
@@ -139,6 +168,24 @@ class GPTGenerator(object):
         input_seq = answer_prompt.format(category=category, information=information, question=question)
         output = openai_api_chat(self.args,  input_seq=input_seq)
         return output
+
+
+    def sum_attributes(self):
+        attribute_path = "./data/from_walmart/attributes/vacuum_product_attributes.txt"
+        data = self._load_txt(attribute_path)
+        SYS_PROMPT = (
+            'You are a helpful assistant. You have been given a list of attributes (#Attribute 1#, #Attribute 2#, ....) about vacuums. '
+            'Your task is to categorize these attributes and provide a concise yet detailed name for each category: #Category#. '
+            'Each category may contain only one attribute. Aim to create as many categories as possible. '
+            'Avoid using generic terms like "feature," "information," or "attributes" for #Category#. '
+            'Please present the results in the following format: \n#Category#: #Attribute 1#, #Attribute 2#, ...\n'
+            'Ensure that all #Attribute# are directly copied from the given list.'
+        )
+
+        input_seq="\n".join(data)
+        categorized_attributes = openai_api_chat(self.args, input_seq=input_seq, system_prompt=SYS_PROMPT)
+        pdb.set_trace()
+        self._save_json(categorized_attributes, "./data/result_gen/attr_vaccum.json")
 
 
 
@@ -159,7 +206,7 @@ def parse_args():
     parser.add_argument(
         "--model_name_or_path",
         type=str,
-        default="gpt-3.5-turbo", # "gpt-3.5-turbo", # "gpt-4"
+        default="gpt-4", # "gpt-3.5-turbo", # "gpt-4"
         help="The name of the model for generation",
     )
     parser.add_argument(
@@ -178,13 +225,13 @@ def parse_args():
     parser.add_argument(
         "--temperature",
         type=float,
-        default=0.0,
+        default=1.0,
         help="Temperature for decoding",
     )
     parser.add_argument(
         "--max_length",
         type=int,
-        default=1024,
+        default=256,
         help="Maximum decoding length",
     )
     parser.add_argument(
@@ -211,13 +258,6 @@ def parse_args():
         default=42,
         help="Random seed",
     )
-    parser.add_argument(
-        "--prompt_style",
-        type=str,
-        default="instruction",
-        choices=["instruction", "instruction_input", "instruction_input_output"],
-        help="Choose what is contained within the prompt",
-    )
     args = parser.parse_args()
     return args
 
@@ -225,7 +265,8 @@ def parse_args():
 def main():
     args = parse_args()
     gen = GPTGenerator(args)
-    gen.generate_q()
+    # gen.generate_q()
+    gen.generate_q_attr()
     
 
 if __name__ == "__main__":
