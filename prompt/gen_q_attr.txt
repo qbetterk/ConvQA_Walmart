@@ -1,0 +1,100 @@
+As a customer interested in purchasing a {category}, you're currently exploring its webpage. What inquiries would you make to a sales representative about this product? 
+Your style can be relaxed and informal, and your questions don't need to be in complete sentences. You will be given a specific feature of the product, and your question should be directly related to that feature. Please phrase your question clearly and directly.
+Feature: {feature}
+Question:
+
+
+
+"As a customer interested in purchasing a {specific category}, you're currently exploring its webpage. What inquiries would you make to a sales representative about this product? 
+Your style can be relaxed and informal, and your questions don't need to be in complete sentences. You will be given a specific feature of the product, and your question should be directly related to that feature. Please phrase your question clearly and directly.
+
+Feature: {specific feature}
+Example:
+Category: Laptops
+Feature: Processor speed
+Sample Question: How fast is the processor?
+
+Ensure that your question seeks specific and relevant information about the given feature."
+
+
+
+Examples:
+- Category: Smartphones
+  Feature: Camera resolution
+  Sample Question: How many megapixels is the camera?
+
+- Category: Electric Cars
+  Feature: Charging time
+  Sample Question: How long does it take to fully charge the battery?
+
+- Category: Headphones
+  Feature: Noise Cancellation
+  Sample Question: Does it block out background noise completely?
+
+
+
+"As a customer interested in purchasing a {specific category}, you're currently exploring its webpage. What detailed inquiries would you make to a sales representative about this product? Your questions should reflect real-world scenarios or specific concerns. You can ask in a relaxed, informal style, and your questions can be detailed and context-specific. You will be given a specific feature, and your question should relate directly to that feature, incorporating any relevant context or scenario. Please phrase your question directly.
+
+Feature: {specific feature}
+
+Examples:
+- Feature: Warranty period for a Vacuum Cleaner
+  Sample Question: The specifications say the Anniversary model has a one-year warranty, but other sellers list a three-year warranty. Which is correct?
+
+- Feature: Dimensions of a Vacuum Cleaner
+  Sample Question: What is the height of the bottom portion of the frame? I need to know if it will fit under my beds.
+
+Ensure your questions address specific scenarios or detailed aspects of the given feature."
+
+
+
+
+
+
+
+
+
+
+
+"As a customer interested in purchasing a {specific category}, you're exploring its webpage. Think about the detailed and specific inquiries you would make to a sales representative, reflecting real-world scenarios or common confusions. Your questions should address practical concerns or clarifications related to a specific feature. Phrase your question in a relaxed, informal style, and ensure it is contextually rich and specific.
+
+Feature: {specific feature}
+
+Examples:
+- Feature: Brand of Vacuum Cleaner
+  Real User Scenario: "I already ordered the wrong one once. Can you help me order the right one for Bissell powerforce helix?"
+  Your Task: Generate a question reflecting this scenario or a similar confusion about the brand.
+
+- Feature: Vacuum Cleaner Model
+  Real User Scenario: "Is there a difference between the green and purple one? HV321 and HV320??"
+  Your Task: Create a question based on distinguishing between models, reflecting user uncertainty or need for clarification.
+
+For each feature, your question should mirror the complexity and specificity of real customer inquiries, addressing practical use cases or common points of confusion."
+
+
+
+
+
+
+
+"As a customer interested in purchasing a {specific category}, you're exploring its webpage. Consider the types of brief, direct inquiries you would realistically make to a sales representative, focusing on specific features. Your questions should be concise, reflecting the kind of query a real user might quickly type out. Each question should pertain to a specific feature, keeping it simple and realistic.
+
+Feature: {specific feature}
+
+Examples:
+- Feature: Brand of Vacuum Cleaner
+  Real User Scenario: Ordering the wrong model
+  Sample Question: "Which model is right for Bissell powerforce helix?"
+
+- Feature: Vacuum Cleaner Model
+  Real User Scenario: Confusion between two models
+  Sample Question: "Difference between HV321 and HV320?"
+
+For each feature, your question should be short and realistic, reflecting the typical inquiries of customers."
+
+
+
+You are assisting in generating concise and direct customer inquiries about product features. These inquiries should be straightforward and realistic, resembling questions that a real user might quickly type out. Begin each response directly with the question, without using any casual greetings like 'hey'. For each given product feature, generate a short and direct question a customer might ask.
+
+
+In this task, you will assist in generating concise and relevant customer inquiries about various product features. Some features have specific candidate values, like product dimensions. For each feature, whether it has candidate values or not, create a realistic, direct question a customer might ask. If candidate values are provided, consider incorporating them into your question. Avoid using casual greetings and start directly with the question.

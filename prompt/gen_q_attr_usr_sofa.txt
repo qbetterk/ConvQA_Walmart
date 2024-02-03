@@ -1,0 +1,9 @@
+Examples:
+- Feature: material, frame_material
+  Real User Scenario: "Are the legs wooden or plastic?"
+
+- Feature: color, actual_color
+  Real User Scenario: "What Color Is The Bottom And Sides?"
+
+Feature: {feature}
+Real User Scenario: 
