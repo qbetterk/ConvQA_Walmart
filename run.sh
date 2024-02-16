@@ -17,21 +17,53 @@ export OPENAI_ORG_ID="org-Y7zi4Bj4dOxFLW4CpEFnAffn"
 # python process_annotation.py
 
 
-category=diapers
-version=1
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# # # # # # # # # # # # # pipeline for generating questions with attributes # # # # # # # # # # # # # # # #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+# version=3
+# # # # # # # # # # # # extract attribute # # # # # # # # #
+# # for category in diapers sofa vacuum tv ; do
+# for category in vacuum ; do
+#     # # # # load sampled questions and save those questions with attributes to ${category}_questions_wi_attr.csv
+#     # python generate.py \
+#     #         --target question \
+#     #         --task extract_attributes \
+#     #         --category ${category} \
+#     #         --version_q=${version}
+
+#     # # # # check sampled questions and corresponding attributes, take two and create prompt ./prompt/gen_q_attr_usr_{self.category}.txt
+#     # # be done manually
+
+#     # # # # option 1: generating questions with only attributes
+#     # # # # # sample real user question and generate new question based corresponding attribute, saving as gen_pair_{self.category}_{self.model}_100.json
+#     # python generate.py \
+#     #         --target question \
+#     #         --task generate_q_pair \
+#     #         --category ${category} \
+#     #         --version_q=${version}
+
+#     # option 2: generating questions with items (attribute and value pairs)
+#     python generate.py \
+#             --target question \
+#             --task generate_q_pair \
+#             --gen_q_with_item True \
+#             --category ${category} \
+#             --version_q=${version}
+# done
+
+
+
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# # # # # # # # # # # # pipeline for generating questions with attributes # # # # # # # # # # # # # # # #
+# # # # # # # # # # # # pipeline for generating answers with database # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-# # # # # # # # # # # extract attribute # # # # # # # # #
-for category in diapers sofa vacuum tv ; do
-    # # # load sampled questions and save those questions with attributes to ${category}_questions_wi_attr.csv
-    # python generate.py --task extract_attributes --category ${category} --version=${version}
-
-    # # # # check sampled questions and corresponding attributes, take two and create prompt ./prompt/gen_q_attr_usr_{self.category}.txt
-    # # be done manually
-
-    # # # # sample real user question and generate new question based corresponding attribute, saving as gen_pair_{self.category}_{self.model}_100.json
-    python generate.py --task generate_q_pair --category ${category} --version=${version}
-done
+version_a=1
+version_q=3
+category=vacuum
+python generate.py \
+        --target answer \
+        --task generate_a_pair \
+        --category ${category} \
+        --version_a ${version_a} \
+        --version_q ${version_q}

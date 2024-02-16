@@ -12,23 +12,13 @@ from constants import *
 random.seed(42)
 SPLIT="; "
 
-class GPTGenerator(object):
+class GPTGeneratorBase(object):
     def __init__(self, args) -> None:
         self.args = args
-        self.save_dir = "./data/gen_questions"
-        self.prompt_filename = "prompt"
-        self.prompt_filename = "prompt_casual_2"
-        self.prompt_path = f"./prompt/{self.prompt_filename}.txt"
-        self.save_filename = f"gen_attr_vacuum_gpt4.json"
-        self.save_path = os.path.join(self.save_dir, f"{self.save_filename}.json")
         self.random_seed = args.seed
-        self.category=args.category
-        self.version=args.version
-        self.annotate_num = 10000
-        self.repeat_num = 3 # number of gen times if attr_post does not match attr_prior
+        self.category = args.category
         self._decide_model(args)
         self._set_seed()
-
 
     def _set_seed(self):
         random.seed(self.random_seed)
@@ -78,100 +68,39 @@ class GPTGenerator(object):
         with open(file_path, "w") as tf:
             json.dump(data, tf, indent=2)
 
-
-    def sample(self):
+    
+    def sample_product(self, attrs=None):
         """
-        Sample an item from the database. 
-        Here we sample from a simulated database, constants.py"""
-        def get_category():
-            return random.choice(list(FEATURE_PER_CATEGORY.keys()))
+        sample a product in self.category
+        all databases locate in data/from_walmart/products/{category}/[1-20].json
+        raw data is stored in form List[Dict{"CATLG_ITEM_ID": int(), "PROD_ATTR_NM_VAL_LST_TXT": List[Dict{"key": str(), "value": str()}]}]
+        we randomly select one and return in terms of a long string 'str(): str()\nstr():str()\n...'"""
+        default_attrs = ["brand", "model"]
+        if attrs: default_attrs += attrs
+        file_idx = 0 #random.randint(1, 20)
+        file_path = f"./data/from_walmart/products/{self.category}/{file_idx}.json"
+        data = self._load_json(file_path)
+        item = data[0] #random.choice(data)
+        attr_list = []
+        for attr in item["PROD_ATTR_NM_VAL_LST_TXT"]:
+            if attrs and attr["key"] not in default_attrs: continue
+            if len(str(attr["value"])) > 1000: continue
+            if attr["value"] == "N": attr["value"] = "No"
+            if attr["value"] == "Y": attr["value"] = "Yes"
+            attr_list.append(attr["key"]+": "+str(attr["value"]))
+        return "\n".join(attr_list)
+        # return "\n ".join([attr["key"]+": "+str(attr["value"]) for attr in item["PROD_ATTR_NM_VAL_LST_TXT"]])
 
-        def get_brand():
-            sample_item["brand"] = random.choice(BRAND[category])
 
-        def get_price():
-            sample_item["price"] = random.randint(PRICE[category][0], PRICE[category][1])
-
-        def get_image():
-            # not available for now
-            sample_item["image"] = random.choice(IMAGE[category])
-
-        def get_size():
-            feature, unit, minimum, maximum = SIZE[category]
-            size = random.randint(minimum, maximum)
-            sample_item[feature] = f"{size} {unit}"
-
-        def get_color():
-            weight_options, color_options = [], []
-            for color, weight in COLOR[category]:
-                weight_options.append(weight)
-                color_options.append(color)
-            sample_item["color"] = random.choices(color_options, weights=weight_options, k=1)[0]
-
-        def get_rating():
-            rating = random.gauss(3.5, 1.5) % 5
-            rating = max(rating, 1)
-            sample_item["rating"] = round(rating, 1)
-
-        def get_shipping():
-            sample_item["shipping"] = random.choice(OTHER["shipping"])
-
-        def get_condition():
-            sample_item["condition"] = random.choice(OTHER["condition"][category])
-
-        def get_specific_feature():
-            for binary_feature in FEATURE[category]["binary"]:
-                sample_item[binary_feature] = random.choice(["Yes", "No"])
-            for special_feature, value_list in FEATURE[category]["special"].items():
-                # outlier case
-                if category == "vacuum" and sample_item["Cordless"] == "Yes" and special_feature == "Cord Length":
-                    continue
-                sample_item[special_feature] = random.choice(value_list)
-
-        sample_item = {}
-        category = get_category()
-        sample_item["category"] = category
-        for feature in FEATURE_PER_CATEGORY[sample_item["category"]]:
-            func_name = f"get_{feature}"
-            locals()[func_name]()
-        return sample_item
-
-    def parse_output(self, output):
-        question_list = output.split("\n")
-        return question_list
-
-    def generate_q_with_item(self):
-        """
-        based on sampled item, along with its attributes, generate a question"""
-        # question_prompt = "You are trying to generate variations of diverse customer questions about products within the {category} category. \nPlease come up with {question_num} questions that customers might possibly ask, even those that are specific and technical. Feel free to be creative in your questions.\nThe Questions should be concerning with this product:\n{information}\nQuestions:\n1."
-        question_prompt = open(self.prompt_path).read() + "\n"
-        sample_num = 10 # number of sampled items
-        question_num = 8 # relevant question for each sampled item
-        data = []
-        sample_item = self.sample()
-        information = "\n".join([f"{feature}: {value}" for feature, value in sample_item.items()])
-        input_seq = question_prompt.format(category=sample_item["category"], 
-                                            question_num=question_num, 
-                                            information=information)
-        output = openai_api_chat(self.args,  input_seq=input_seq)
-        self._save_json(self.parse_output(output), self.save_path)
-
-    def sum_attributes(self):
-        attribute_path = "./data/from_walmart/attributes/vacuum_product_attributes.txt"
-        data = self._load_txt(attribute_path)
-        SYS_PROMPT = (
-            'You are a helpful assistant. You have been given a list of attributes (#Attribute 1#, #Attribute 2#, ....) about vacuums. '
-            'Your task is to categorize these attributes and provide a concise yet detailed name for each category: #Category#. '
-            'Each category may contain only one attribute. Aim to create as many categories as possible. '
-            'Avoid using generic terms like "feature," "information," or "attributes" for #Category#. '
-            'Please present the results in the following format: \n#Category#: #Attribute 1#, #Attribute 2#, ...\n'
-            'Ensure that all #Attribute# are directly copied from the given list.'
-        )
-
-        input_seq="\n".join(data)
-        categorized_attributes = openai_api_chat(self.args, input_seq=input_seq, system_prompt=SYS_PROMPT)
-        pdb.set_trace()
-        self._save_json(categorized_attributes, f"{self.save_dir}/attr_vaccum.json")
+class GPTGeneratorQ(GPTGeneratorBase):
+    def __init__(self, args) -> None:
+        super().__init__(args)
+        self.save_dir = "./data/gen_questions"
+        self.annotate_num = 10000
+        self.repeat_num = 3 # number of gen times if attr_post does not match attr_prior
+        self.sample_num = 100
+        self.version_q = args.version_q
+        self.gen_q_with_item = args.gen_q_with_item
 
     def extract_attributes(self):
         # # # load questions
@@ -196,7 +125,6 @@ class GPTGenerator(object):
 
     def extract_attr_q(self, question):
         # # # extract attribute from sampled questions
-        # self.prompt_path = "prompt/extract_attr.txt"
         prompt = (
             "You are a helpful assistant. Here is a list of ATTRIBUTES related to {category}:\n\n{attribute_list}\n\n"
             "You will be given a question about {category}. "
@@ -232,8 +160,50 @@ class GPTGenerator(object):
                 print(index, row["attribute"], "-"*10,  row["question"])
         print(count_error, count_total)
 
-    def generate_q_with_attrs(self):
+    def generate_q_pair(self):
+        num_for_attr = 1 # how many data point to sample for each attribute
+        attribute_path = f"data/from_walmart/attributes/{self.category}_product_attributes.txt"
+        attr_list = self._load_txt(attribute_path)
+        csv_path = f"./data/from_walmart/examples/category_questions/{self.category}_questions/{self.category}_questions_wi_attr.csv"
+        data_ori = self._load_csv(csv_path)
+        new_pair_dict = {}
+        # database = self.sample_product() if self.gen_q_with_item else ""
+        for _, row in tqdm(data_ori.iterrows()):
+            # row["attribute"] can contain multiple attribute
+            if not self.validate_attrs(row["attribute"], attr_list): continue
 
+            for i in range(num_for_attr):
+                new_attr_name = str(i) + ": " + row["attribute"]
+                if new_attr_name in new_pair_dict: continue
+                if self.gen_q_with_item:
+                    database = self.sample_product(attrs=row["attribute"].split("; "))
+                    new_synthesized_question = self.generate_q_with_item(attr=row["attribute"], database=database)
+                else:
+                    new_synthesized_question = self.generate_q_with_attr(attr=row["attribute"])
+                # pdb.set_trace()
+                if not new_synthesized_question: break
+
+                new_pair_dict[new_attr_name] = {
+                    "real_user_question": row["question"],
+                    "synthesized_question": new_synthesized_question,
+                    "database": database,
+                }
+                break
+            if len(new_pair_dict) >= 100: break
+        new_pair_dict = dict(sorted(new_pair_dict.items()))
+        # adding index and transform into list
+        new_pair_list = [{
+            "index" : idx,
+            "attr"  : key_,
+            "real_user_question": value_["real_user_question"],
+            "synthesized_question": value_["synthesized_question"],
+            "database": value_["database"],
+        } for idx, (key_, value_) in enumerate(new_pair_dict.items())]
+
+        save_file_name = f"gen_pair_v{self.version_q}_{self.category}_{self.model}_{self.sample_num}.json"
+        self._save_json(new_pair_list, os.path.join(self.save_dir, save_file_name))
+
+    def generate_q_with_attrs(self):
         attribute_path = f"./data/from_walmart/attributes/{self.category}_product_attributes.txt"
         attrs = self._load_txt(attribute_path)
         # attr = random.sample(attrs)
@@ -242,16 +212,10 @@ class GPTGenerator(object):
             questions[attr] = self.generate_q_with_attr(attr=attr)
         self._save_json(questions, f"{self.save_dir}/gen_attr_{self.category}_{self.model}.json")
 
-    def validate_attr_overlap(self, attr, attr_post):
-        # validate if attributes for generation and after generation match
-        # here we consider they match if they have at least one same attribute
-        intersaction = set(attr.split(SPLIT)).intersection(set(attr_post.split(SPLIT)))
-        return len(intersaction) != 0
-
     def generate_q_with_attr(self, attr):
         """
         based on a sampled attribute, generate a question"""
-        SYS_PROMPT = self._load_txt(f"./prompt/gen_q_attr_sys_v{self.version}.txt", readlines=False)
+        SYS_PROMPT = self._load_txt(f"./prompt/gen_q_attr_sys_v{self.version_q}.txt", readlines=False)
         USER_PROMPT = self._load_txt(f"./prompt/gen_q_attr_usr_{self.category}.txt", readlines=False)
         for i in range(self.repeat_num):
             output = openai_api_chat(
@@ -272,8 +236,13 @@ class GPTGenerator(object):
                 print(f"attr: {attr}")
                 print("attr_post", attr_post)
                 print(output)
-
         return ""
+
+    def validate_attr_overlap(self, attr, attr_post):
+        # validate if attributes for generation and after generation match
+        # here we consider they match if they have at least one same attribute
+        intersaction = set(attr.split(SPLIT)).intersection(set(attr_post.split(SPLIT)))
+        return len(intersaction) != 0
 
     def validate_attrs(self, attrs, attr_list):
         # validate if extracted attributes are valid (align with attribute list)
@@ -281,50 +250,54 @@ class GPTGenerator(object):
             if attr not in attr_list: return False
         return True
 
-    def generate_q_pair(self):
-        num_for_attr = 1 # how many data point to sample for each attribute
-        attribute_path = f"data/from_walmart/attributes/{self.category}_product_attributes.txt"
-        attr_list = self._load_txt(attribute_path)
-        csv_path = f"./data/from_walmart/examples/category_questions/{self.category}_questions/{self.category}_questions_wi_attr.csv"
-        data_ori = self._load_csv(csv_path)
-        new_attr_dict = {}
-        for _, row in tqdm(data_ori.iterrows()):
-            # row["attribute"] can contain multiple attribute
-            if not self.validate_attrs(row["attribute"], attr_list): continue
+    def generate_q_with_item(self, attr=None, database=None):
+        """
+        based on a sampled attribute and a sampled product info (attr-value pair), generate a question"""
+        SYS_PROMPT = self._load_txt(f"./prompt/gen_q_attr_sys_v{self.version_q}.txt", readlines=False)
+        USER_PROMPT = self._load_txt(f"./prompt/gen_q_attr_usr_item_{self.category}.txt", readlines=False)
+        for i in range(self.repeat_num):
+            output = openai_api_chat(
+                                self.args, 
+                                input_seq=USER_PROMPT.format(feature=attr, database=database), 
+                                system_prompt=SYS_PROMPT.format(category=self.category),
+                                temperature=1.0
+                                )
+            output = output.strip('"')
+            # verify if generated question match the attr
+            attr_post = self.extract_attr_q(output)
+            # if attr_post == attr or attr in attr_post:
+            if self.validate_attr_overlap(attr, attr_post):
+                return output
+            else:
+                print("")
+                print(self.validate_attr_overlap(attr, attr_post))
+                print(f"attr: {attr}")
+                print("attr_post", attr_post)
+                print(output)
+        return ""
 
-            for i in range(num_for_attr):
-                new_attr_name = str(i) + ": " + row["attribute"]
-                if new_attr_name in new_attr_dict: continue
-                new_synthesized_question = self.generate_q_with_attr(attr=row["attribute"])
-                # pdb.set_trace()
-                if not new_synthesized_question: break
-                new_attr_dict[new_attr_name] = {
-                    "real_user_question": row["question"],
-                    "synthesized_question": new_synthesized_question,
-                }
-                break
-            if len(new_attr_dict) >= 100: break
-        new_attr_dict = dict(sorted(new_attr_dict.items()))
-        # adding index and transform into list
-        new_attr_list = [{
-            "index" : idx,
-            "attr"  : key_,
-            "real_user_question": value_["real_user_question"],
-            "synthesized_question": value_["synthesized_question"],
-        } for idx, (key_, value_) in enumerate(new_attr_dict.items())]
-        self._save_json(new_attr_list, f"{self.save_dir}/gen_pair_v{self.version}_{self.category}_{self.model}_100.json")
 
-    def generate_a(self, information=None, question=None):
+class GPTGeneratorA(GPTGeneratorBase):
+    def __init__(self, args) -> None:
+        super().__init__(args)
+        self.save_dir = "./data/gen_answers"
+        self.questions_dir = "./data/gen_questions"
+        self.sample_num = 100
+        self.version_q = args.version_q
+        self.version_a = args.version_a
+
+    def generate_a(self, product_info=None, question=None):
         """
         based on sampled item and generated questions, generate an answer
         information is created for specific product"""
-        SYS_PROMPT = self._load_txt("./prompt/gen_a_sys.txt", readlines=False)
+        SYS_PROMPT = self._load_txt(f"./prompt/gen_a_sys_v{self.version_a}.txt", readlines=False)
         USER_PROMPT = self._load_txt(f"./prompt/gen_a_usr_{self.category}.txt", readlines=False)
+        # pdb.set_trace()
         output = openai_api_chat(
                             self.args, 
-                            input_seq=USER_PROMPT.format(question=question), 
+                            input_seq=USER_PROMPT.format(product_info=product_info, question=question), 
                             system_prompt=SYS_PROMPT.format(category=self.category),
-                            temperature=1.0
+                            temperature=0.1
                             )
         output = output.strip('"')
         return output
@@ -332,24 +305,32 @@ class GPTGenerator(object):
     def generate_a_pair(self):
         """
         generate answers for created question pairs"""
-        questions = self._load_json(os.path.join(self.save_dir, "gen_pair_r2_vacuum.json"))
+        product_info = self.sample_product()
+        questions = self._load_json(os.path.join(self.questions_dir, f"gen_pair_v{self.version_q}_{self.category}_{self.model}_{self.sample_num}.json"))
         answers = []
-        for idx, question_pair in tqdm(enumerate(questions.items())):
-            if idx > 50 : break
-            real_q = question_pair[-1]["real_user_question"]
-            synt_q = question_pair[-1]["synthesized_question"]
+        for question_pair in tqdm(questions[:]):
+            real_q = question_pair["real_user_question"]
+            synt_q = question_pair["synthesized_question"]
+            for attr in question_pair["attr"].split(": ")[-1].split("; "):
+                # pdb.set_trace()
+                if f"{attr}: " not in product_info:
+                    product_info += f"\n{attr}: No"
+                    print(f"\n{attr}: No")
+
             answers.append({
-                "index": idx,
+                "index": question_pair["index"],
+                "attr": question_pair["attr"].split(": ")[-1],
                 "real_user":{
                     "question": real_q,
-                    "answer": self.generate_a(question=real_q),
+                    "answer": self.generate_a(product_info=product_info, question=real_q),
                 },
                 "synthesized": {
                     "question": synt_q,
-                    "answer": self.generate_a(question=synt_q),
+                    "answer": self.generate_a(product_info=product_info, question=synt_q),
                 },
+                # "database": product_info,
             })
-        self._save_json(answers, "./data/gen_answers/gen_pair_r2_vacuum.json")
+        self._save_json(answers, f"{self.save_dir}/gen_pair_vq{self.version_q}a{self.version_a}_{self.category}_{self.model}_{self.sample_num}.json")
 
 
 def parse_args():
@@ -361,10 +342,23 @@ def parse_args():
         help="The name of the model for generation",
     )
     parser.add_argument(
+        "--target",
+        type=str,
+        default="question",
+        choices=["question", "answer"],
+        help="Choose to generate questions or answers",
+    )
+    parser.add_argument(
         "--task",
         type=str,
         default="extract_attributes",
         help="Choose which task/function to conduct",
+    )
+    parser.add_argument(
+        "--gen_q_with_item",
+        type=bool,
+        default=True,
+        help="Choose whether to use an item or just an attribute to generate a question",
     )
     parser.add_argument(
         "--category",
@@ -374,10 +368,16 @@ def parse_args():
         help="Choose which category to process",
     )
     parser.add_argument(
-        "--version",
+        "--version_a",
+        type=int,
+        default=1,
+        help="Choose which version of prompt we use for answer generation",
+    )
+    parser.add_argument(
+        "--version_q",
         type=int,
         default=2,
-        help="Choose which version of prompt we use for generation",
+        help="Choose which version of prompt we used for question generation",
     )
     # parameters for lm api
     parser.add_argument(
@@ -423,7 +423,13 @@ def parse_args():
 def main():
 
     args = parse_args()
-    gen = GPTGenerator(args)
+    if args.target == "question":
+        gen = GPTGeneratorQ(args)
+    elif args.target == "answer":
+        gen = GPTGeneratorA(args)
+    else:
+        raise ValueError("Choose to generate questions or answers")
+
 
     function = getattr(gen, args.task, None)
     if callable(function):

@@ -1,0 +1,6 @@
+You are a helpful assistant. Here is a list of ATTRIBUTES related to {category}:
+ATTRIBUTES:
+
+{attribute_list}
+
+You will be given a question about {category}. Your task is to determine which ATTRIBUTE the question is referring to. If a question applies to multiple attributes, list all that apply. Please directly give the ATTRIBUTE. Each ATTRIBUTE should be directly copied from the above list.

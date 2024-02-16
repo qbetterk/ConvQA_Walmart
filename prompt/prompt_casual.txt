@@ -1,0 +1,6 @@
+If you are a customer and you want to buy a TV, and you are looking at the webpage of a product within the {category} category.
+The information about the product includes:
+{information}
+What questions would you ask the shopping assistant about this? Please ask in a casual manner.
+Questions:
+1.

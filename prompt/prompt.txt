@@ -1,0 +1,3 @@
+As a customer interested in products within the {category} category, your task is to come up with {question_num} different customer questions about specific products. Don't hold back on specific or technical queries. Focus your questions on the following product:
+{information}
+Please format your questions like so: #attribute#: questions

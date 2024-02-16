@@ -1,0 +1,5 @@
+Product Information:
+{product_info}
+
+Question: {question}
+Answer:

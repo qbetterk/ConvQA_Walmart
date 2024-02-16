@@ -1,0 +1,4 @@
+Imagine you're a customer interested in purchasing a {category}, and you're browsing its webpage. Given the following attributes:
+{information}
+What inquiries would you pose to a sales associate about this product? You can ask in a relaxed, informal way and your queries can even be in the form of incomplete sentences. It's not necessary to understand all the attributes. You can inquire about two attributes in one question if you like.
+Please submit your questions in this format: #attribute#: questions.

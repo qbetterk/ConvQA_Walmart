@@ -1,0 +1,12 @@
+Examples:
+- Feature: manufacturer_web_site
+  Real User Scenario: "Have Bissell 792-p. How can I download manuals?"
+
+- Feature: model
+  Real User Scenario: "Is there a difference between the green and purple one? HV321 and HV320??"
+
+Product Features Database:
+{database}
+
+Feature: {feature}
+Real User Scenario: 
