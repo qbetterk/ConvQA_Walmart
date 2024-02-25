@@ -17,6 +17,7 @@ class GPTGeneratorBase(object):
         self.args = args
         self.random_seed = args.seed
         self.category = args.category
+        self.sample_num = args.sample_num
         self._decide_model(args)
         self._set_seed()
 
@@ -28,11 +29,11 @@ class GPTGeneratorBase(object):
         #"gpt-4-1106-preview", # "gpt-3.5-turbo", # "gpt-4", "gpt-3.5-turbo-1106"
         if args.model_name_or_path == "gpt-4":
             self.model="gpt4"
-        elif args.model_name_or_path == "gpt-4-1106-preview":
+        elif args.model_name_or_path.startswith("gpt-4"):
             self.model="gpt4t"
         elif args.model_name_or_path == "gpt-3.5-turbo":
             self.model="gpt35t"
-        elif args.model_name_or_path == "gpt-3.5-turbo-1106":
+        elif args.model_name_or_path == "gpt-3.5-turbo-0125":
             self.model="gpt35tnew"
 
     def _load_json(self, path):
@@ -98,7 +99,6 @@ class GPTGeneratorQ(GPTGeneratorBase):
         self.save_dir = "./data/gen_questions"
         self.annotate_num = 10000
         self.repeat_num = 3 # number of gen times if attr_post does not match attr_prior
-        self.sample_num = 100
         self.version_q = args.version_q
         self.gen_q_with_item = args.gen_q_with_item
 
@@ -270,7 +270,6 @@ class GPTGeneratorQ(GPTGeneratorBase):
                 return output
             else:
                 print("")
-                print(self.validate_attr_overlap(attr, attr_post))
                 print(f"attr: {attr}")
                 print("attr_post", attr_post)
                 print(output)
@@ -282,7 +281,6 @@ class GPTGeneratorA(GPTGeneratorBase):
         super().__init__(args)
         self.save_dir = "./data/gen_answers"
         self.questions_dir = "./data/gen_questions"
-        self.sample_num = 100
         self.version_q = args.version_q
         self.version_a = args.version_a
 
@@ -302,15 +300,20 @@ class GPTGeneratorA(GPTGeneratorBase):
         output = output.strip('"')
         return output
 
-    def generate_a_pair(self):
+    def generate_a_wi_item(self):
         """
-        generate answers for created question pairs"""
-        product_info = self.sample_product()
-        questions = self._load_json(os.path.join(self.questions_dir, f"gen_pair_v{self.version_q}_{self.category}_{self.model}_{self.sample_num}.json"))
+        generate answers for created questions (ignore real questions),
+        based on information of a selected item
+        """
+        questions = self._load_json(os.path.join(self.questions_dir, 
+                            f"gen_pair_v{self.version_q}_{self.category}_{self.model}_{self.sample_num}.json"))
         answers = []
-        for question_pair in tqdm(questions[:]):
-            real_q = question_pair["real_user_question"]
+        for question_pair in tqdm(questions[:20]):
+            # real_q = question_pair["real_user_question"]
             synt_q = question_pair["synthesized_question"]
+            # product_info = {attr.split(": ")[0]:attr.split(": ")[1] for attr in question_pair["database"].split("\n")}
+            product_info = question_pair["database"]
+            # pdb.set_trace()
             for attr in question_pair["attr"].split(": ")[-1].split("; "):
                 # pdb.set_trace()
                 if f"{attr}: " not in product_info:
@@ -379,6 +382,12 @@ def parse_args():
         default=2,
         help="Choose which version of prompt we used for question generation",
     )
+    parser.add_argument(
+        "--sample_num",
+        type=int,
+        default=20,
+        help="Choose how many samples to generate for both questions and answers",
+    )
     # parameters for lm api
     parser.add_argument(
         "--temperature",
@@ -436,13 +445,6 @@ def main():
         function()
     else:
         raise ValueError("Choose a pre-defined task to execute ... ")
-        
-    # gen.generate_q()
-    # gen.generate_q_with_attrs()
-    # # gen.extract_attributes()
-    # # gen.verify_annotation()
-    # # gen.generate_q_pair()
-    # # gen.generate_a_pair()
     
 
 if __name__ == "__main__":
