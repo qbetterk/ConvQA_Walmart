@@ -77,10 +77,10 @@ class GPTGeneratorBase(object):
         we randomly select one and return in terms of a long string 'str(): str()\nstr():str()\n...'"""
         default_attrs = ["brand", "model"]
         if attrs: default_attrs += attrs
-        file_idx = 0 #random.randint(1, 20)
+        file_idx = random.randint(1, 20) # 0 for test
         file_path = f"./data/from_walmart/products/{self.category}/{file_idx}.json"
         data = self._load_json(file_path)
-        item = data[0] #random.choice(data)
+        item = random.choice(data) # data[0] #
         attr_list = []
         for attr in item["PROD_ATTR_NM_VAL_LST_TXT"]:
             if attrs and attr["key"] not in default_attrs: continue
@@ -189,7 +189,7 @@ class GPTGeneratorQ(GPTGeneratorBase):
                     "database": database,
                 }
                 break
-            if len(new_pair_dict) >= 100: break
+            if len(new_pair_dict) >= self.sample_num: break
         new_pair_dict = dict(sorted(new_pair_dict.items()))
         # adding index and transform into list
         new_pair_list = [{
@@ -320,17 +320,17 @@ class GPTGeneratorA(GPTGeneratorBase):
             answers.append({
                 "index": question_pair["index"],
                 "attr": question_pair["attr"].split(": ")[-1],
-                "real_user":{
-                    "question": real_q,
-                    "answer": self.generate_a(product_info=product_info, question=real_q),
-                },
+                # "real_user":{
+                #     "question": real_q,
+                #     "answer": self.generate_a(product_info=product_info, question=real_q),
+                # },
                 "synthesized": {
                     "question": synt_q,
                     "answer": self.generate_a(product_info=product_info, question=synt_q),
                 },
-                # "database": product_info,
+                "database": product_info,
             })
-        self._save_json(answers, f"{self.save_dir}/gen_pair_vq{self.version_q}a{self.version_a}_{self.category}_{self.model}_{self.sample_num}.json")
+        self._save_json(answers, f"{self.save_dir}/gen_vq{self.version_q}a{self.version_a}_{self.category}_{self.model}_{self.sample_num}.json")
 
 
 def parse_args():
