@@ -1,0 +1,12 @@
+Examples:
+- Feature: maximum_weight_of_baby
+  Real User Scenario: "What would you say about large, hold a toddler up to 40 lbs?"
+
+- Feature: ingredients, allergens
+  Real User Scenario: "Do these diapers have any of those gel beads in them? My daughter is allergic to them and I’m trying to see if she can wear these"
+
+Product Features Database:
+{database}
+
+Feature: {feature}
+Real User Scenario: 

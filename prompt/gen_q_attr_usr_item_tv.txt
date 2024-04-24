@@ -1,0 +1,12 @@
+Examples:
+- Feature: assembled_product_height
+  Real User Scenario: "What is the height of this item with STAND?"
+
+- Feature: number_of_usb_ports
+  Real User Scenario: "Does this allow USB flash drive support?"
+
+Product Features Database:
+{database}
+
+Feature: {feature}
+Real User Scenario: 

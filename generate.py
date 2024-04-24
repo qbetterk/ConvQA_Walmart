@@ -8,68 +8,17 @@ import pandas as pd
 from tqdm import tqdm
 from openai_api import openai_api_chat
 from constants import *
+from base import BaseClass
 
-random.seed(42)
 SPLIT="; "
 
-class GPTGeneratorBase(object):
+class GPTGeneratorBase(BaseClass):
     def __init__(self, args) -> None:
+        super().__init__(args)
         self.args = args
         self.random_seed = args.seed
         self.category = args.category
-        self.sample_num = args.sample_num
-        self._decide_model(args)
-        self._set_seed()
-
-    def _set_seed(self):
-        random.seed(self.random_seed)
-        np.random.seed(self.random_seed)
-
-    def _decide_model(self, args):
-        #"gpt-4-1106-preview", # "gpt-3.5-turbo", # "gpt-4", "gpt-3.5-turbo-1106"
-        if args.model_name_or_path == "gpt-4":
-            self.model="gpt4"
-        elif args.model_name_or_path.startswith("gpt-4"):
-            self.model="gpt4t"
-        elif args.model_name_or_path == "gpt-3.5-turbo":
-            self.model="gpt35t"
-        elif args.model_name_or_path == "gpt-3.5-turbo-0125":
-            self.model="gpt35tnew"
-
-    def _load_json(self, path):
-        if path is None or not os.path.exists(path):
-            raise IOError(f"File doe snot exists: {path}")
-        print(f"Loading data from {path} ...")
-        with open(path) as df:
-            data = json.loads(df.read())
-        return data
-    
-    def _load_txt(self, path=None, split_tok="\n", readlines=True):
-        if path is None or not os.path.exists(path):
-            raise IOError('File does not exist: %s' % path)
-        with open(path) as df:
-            if readlines:
-                data = df.read().strip().split(split_tok)
-            else:
-                data = df.read()
-        return data
-
-    def _load_csv(self, path=None, sep=","):
-        if path is None or not os.path.exists(path):
-            raise IOError('File does not exist: %s' % path)
-        with open(path) as df:
-            data = pd.read_csv(df, sep=sep)
-        return data
-
-    def _save_json(self, data, file_path):
-        dir_path = "/".join(file_path.split("/")[:-1])
-        if dir_path and not os.path.exists(dir_path):
-            os.makedirs(dir_path)
-        print(f"Saving file {file_path} ...")
-        with open(file_path, "w") as tf:
-            json.dump(data, tf, indent=2)
-
-    
+  
     def sample_product(self, attrs=None):
         """
         sample a product in self.category
@@ -289,7 +238,7 @@ class GPTGeneratorA(GPTGeneratorBase):
         based on sampled item and generated questions, generate an answer
         information is created for specific product"""
         SYS_PROMPT = self._load_txt(f"./prompt/gen_a_sys_v{self.version_a}.txt", readlines=False)
-        USER_PROMPT = self._load_txt(f"./prompt/gen_a_usr_{self.category}.txt", readlines=False)
+        USER_PROMPT = self._load_txt(f"./prompt/gen_a_usr.txt", readlines=False)
         # pdb.set_trace()
         output = openai_api_chat(
                             self.args, 
@@ -308,15 +257,15 @@ class GPTGeneratorA(GPTGeneratorBase):
         questions = self._load_json(os.path.join(self.questions_dir, 
                             f"gen_pair_v{self.version_q}_{self.category}_{self.model}_{self.sample_num}.json"))
         answers = []
-        for question_pair in tqdm(questions[:20]):
+        for question_pair in tqdm(questions[:self.sample_num]):
             # real_q = question_pair["real_user_question"]
             synt_q = question_pair["synthesized_question"]
             # product_info = {attr.split(": ")[0]:attr.split(": ")[1] for attr in question_pair["database"].split("\n")}
             product_info = question_pair["database"]
             # pdb.set_trace()
             for attr in question_pair["attr"].split(": ")[-1].split("; "):
-                # pdb.set_trace()
                 if f"{attr}: " not in product_info:
+                    # pdb.set_trace()
                     product_info += f"\n{attr}: No"
                     print(f"\n{attr}: No")
 
