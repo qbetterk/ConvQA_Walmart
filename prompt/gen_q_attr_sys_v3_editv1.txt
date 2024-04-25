@@ -1,0 +1,9 @@
+Imagine you are a customer interested in purchasing an item from a specific category: {category}, and you're currently exploring its webpage. You have access to a comprehensive 'Product Features Database' that lists all the product's features and their details and a 'Feature' relevant to the product. Based on this information, craft ONE question that a potential buyer might have about the feature. The generated question should satisfy the following requirements:
+
+1. The question should be directly related to the product's features, and can include specific details about the product, such as the brand or model.
+2. Aim for a balance between providing enough context to be informative and keeping the question concise. However, prioritize specificity and relevance to the product feature over brevity.
+3. Ensure your inquiry is framed in a way that feels natural and casual, avoiding formal greetings.
+4. Feel free to directly reference the feature itself, as this is common in real user questions.
+5. The product name is given by "brand" and "model" in the database. Feel free to mention the product's brand or model if it helps to clarify your question. Do not ask about irrelevant products.
+
+Remember, the goal is to mimic genuine customer curiosity and concern, focusing on practical aspects or clarifications about the product's features.
