@@ -24,7 +24,7 @@ class BaseClass(object):
         #"gpt-4-1106-preview", # "gpt-3.5-turbo", # "gpt-4", "gpt-3.5-turbo-1106"
         if args.model_name_or_path == "gpt-4":
             self.model="gpt4"
-        elif args.model_name_or_path.startswith("gpt-4"):
+        elif args.model_name_or_path == "gpt-4-turbo":
             self.model="gpt4t"
         elif args.model_name_or_path == "gpt-3.5-turbo":
             self.model="gpt35t"

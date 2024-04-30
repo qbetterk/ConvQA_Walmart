@@ -19,6 +19,7 @@ class GPTGeneratorBase(BaseClass):
         self.args = args
         self.random_seed = args.seed
         self.category = args.category
+        self.sample_num = args.sample_num
   
     def sample_product(self, attrs=None):
         """
@@ -46,7 +47,7 @@ class GPTGeneratorBase(BaseClass):
 class GPTGeneratorQ(GPTGeneratorBase):
     def __init__(self, args) -> None:
         super().__init__(args)
-        self.save_dir = "./data/gen_questions"
+        self.save_dir = args.save_dir
         self.annotate_num = 10000
         self.repeat_num = 3 # number of gen times if attr_post does not match attr_prior
         self.version_q = args.version_q
@@ -150,7 +151,7 @@ class GPTGeneratorQ(GPTGeneratorBase):
             "database": value_["database"],
         } for idx, (key_, value_) in enumerate(new_pair_dict.items())]
 
-        save_file_name = f"gen_pair_v{self.version_q}_{self.category}_{self.model}_{self.sample_num}.json"
+        save_file_name = f"gen_pair_v{self.version_q}_{self.category}_{self.model}_{self.sample_num}.json" if not self.args.save_filename else self.args.save_filename
         self._save_json(new_pair_list, os.path.join(self.save_dir, save_file_name))
 
     def generate_q_with_attrs(self):
