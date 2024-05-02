@@ -1,8 +1,6 @@
-### SYSTEM PROMPT:
+### PROMPT:
 {gen_q_prompt_sys}
 
-### USER PROMPT:
-{gen_q_prompt_usr}
 
 ### The real user question and generated question pairs are listed here:
 {gen_q_pair}

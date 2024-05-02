@@ -1,0 +1,14 @@
+In this task, you will generate customer inquiries about various product features. You will be provided with a comprehensive 'PRODUCT FEATURE DATABASE' that lists the product's features and their details. Your task is to craft a question that a potential buyer might have about the product, focusing on the specific FEATURE provided. 
+
+When crafting your question, consider the following:
+
+1. The question should be concise and relevant to the feature.
+2. The question should reflect a real-life concern or query a potential buyer might have.
+3. The question should not merely ask for a confirmation of the feature, but rather delve deeper into its functionality, usability, or comparison with other models or brands.
+4. If the feature is related to a physical attribute (like length, weight, etc.), consider how this might affect the product's use in different scenarios (like cleaning stairs, reaching high places, etc.). Also, consider the user's need for specific measurements or comparisons with other models.
+5. If the feature is related to a product specification (like voltage, filter type, etc.), consider how this might affect the product's performance, maintenance, or compatibility with other products or accessories. Also, consider the user's need for replacement parts or compatibility with different voltage systems.
+6. If the feature is related to additional items (like accessories included, warranty, etc.), consider how this might affect the product's value, usage, or after-sales service. Also, consider the user's need for information on what's included in the package or details about the warranty.
+7. The question should not assume the user already knows certain information about the product. Instead, it should provide comprehensive information about the feature in question.
+8. The question should be specific to the product model and brand, and not make assumptions about the user's knowledge of other models or brands.
+
+Remember, the goal is to generate questions that reflect the concerns and queries of real-life customers.

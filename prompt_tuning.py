@@ -21,14 +21,14 @@ class GPTPromptEditorBase(BaseClass):
 class GPTPromptEditorQ(GPTPromptEditorBase):
     def __init__(self, args) -> None:
         super().__init__(args)
-        self.version_q = 1
+        self.version_q = args.version_q
         self.sample_num = 20
+        self.edit_prompt_sys_path = "./prompt/edit_q_from_q_sys_v1.txt"
+        self.edit_prompt_usr_path = "./prompt/edit_q_from_q_usr_v1.txt"
+        self.gen_q_prompt_sys_path = f"./prompt/edit_q_from_q_v1/refine_gen_q_sys_v{self.version_q}.txt"
+        self.gen_q_prompt_usr_path = "./prompt/gen_q_attr_usr_item_vacuum.txt"
+        self.gen_q_pair_path = os.path.join(self.gen_q_dir, "gen_pair_v1_vacuum_gpt4t_20.json")
         self.preference_path = os.path.join(self.ann_q_dir, "r1_vacuum.json")
-        self.edit_prompt_sys_path = os.path.join("./prompt/edit_q_from_q_sys_v1.txt")
-        self.edit_prompt_usr_path = os.path.join("./prompt/edit_q_from_q_usr_v1.txt")
-        self.gen_q_prompt_sys_path = os.path.join(f"./prompt/edit_q_from_q_v1/refine_gen_q_attr_sys_v{self.version_q}.txt")
-        self.gen_q_prompt_usr_path = os.path.join("./prompt/gen_q_attr_usr_item_vacuum.txt")
-        self.gen_q_pair_path = os.path.join(self.gen_q_dir, "gen_pair_v1_vacuum_gpt4t_100.json")
 
 
     def uniform_q_pair(self, data):
@@ -56,8 +56,10 @@ class GPTPromptEditorQ(GPTPromptEditorBase):
         q_pairs_sample = random.sample(q_pairs, k=self.sample_num)
         gen_q_pair = ""
         for pair in q_pairs_sample:
-            gen_q_pair += f"real user questions: {pair['real_user_question']}\n"
-            gen_q_pair += f"generated questions: {pair['synthesized_question']}\n\n"
+            gen_q_pair += f"PRODUCT FEATURE DATABASE:\n{pair['database']}\n"
+            gen_q_pair += f"FEATURE: {pair['attr']}\n"
+            gen_q_pair += f"Real User Question: {pair['real_user_question']}\n"
+            gen_q_pair += f"Generated Question: {pair['synthesized_question']}\n\n"
             # print("real user questions:", pair["real_user_question"])
             # print("generated questions:", pair["synthesized_question"])
             # print()
@@ -69,9 +71,10 @@ class GPTPromptEditorQ(GPTPromptEditorBase):
         USER_PROMPT = USER_PROMPT.format(gen_q_prompt_sys=gen_q_prompt_sys, gen_q_prompt_usr=gen_q_prompt_usr, gen_q_pair=gen_q_pair)
         print(SYS_PROMPT, "\n")
         print(USER_PROMPT)
-        output = openai_api_chat(self.args, input_seq=USER_PROMPT, system_prompt=SYS_PROMPT, temperature=0.1)
-        with open(f"./prompt/edit_q_from_q_v1/refine_gen_q_attr_sys_v{self.version_q + 1}.txt", "w") as tf:
+        output = openai_api_chat(self.args, input_seq=USER_PROMPT, system_prompt=SYS_PROMPT, temperature=0)
+        with open(f"./prompt/edit_q_from_q_v1/refine_gen_q_sys_v{self.version_q + 1}.txt", "w") as tf:
             tf.write(output)
+            print(f"Saving revised prompt file: ./prompt/edit_q_from_q_v1/refine_gen_q_attr_sys_v{self.version_q + 1}.txt ...")
 
 
     def edit_from_p(self):

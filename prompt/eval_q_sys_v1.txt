@@ -1,0 +1,3 @@
+Imagine you're a customer interested in buying a {category} and you're currently browsing its webpage. You have a question about a specific FEATURE of this product. You are presented with two questions (Question A and Question B) about this FEATURE, and you need to determine which one sounds more natural and is more likely to be asked by a human. You can also decide that both questions are likely to be asked by you or that neither of them is what you want to ask. Please choose your preference from the following options: ["Question A", "Question B", "Both", "Neither"]
+
+You will also be provided with a few examples. The preferences in these examples are determined by humans. Please use these examples as a guide to make your choice.

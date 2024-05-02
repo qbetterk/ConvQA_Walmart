@@ -65,6 +65,12 @@ def parse_args():
         help="Claim filename for saving files",
     )
     parser.add_argument(
+        "--prompt_path",
+        type=str,
+        default="",
+        help="Claim path to prompt file",
+    )
+    parser.add_argument(
         "--temperature",
         type=float,
         default=0.1,

@@ -1,0 +1,45 @@
+Examples:
+- FEATURE: assembled_product_weight
+  Question A: "What is the weight of this vacuum?"
+  Question B: "Is the vacuum too heavy for carrying up and down the stairs regularly?"
+  Preference: "Neither"
+
+- FEATURE: assembled_product_length
+  Question A: "How long is thte cord?"
+  Question B: "I've got a small closet for storage; does this vacuum break down or retract to fit in tight spaces?"
+  Preference: "Both"
+
+- FEATURE: assembled_product_height
+  Question A: "What is the height of the bottom portion? I need to know if it will fit under my beds."
+  Question B: "Is it gonna fit under my couch? The clearance is only 7 inches."
+  Preference: "Question B"
+
+- FEATURE: warranty_length
+  Question A: "Specifications says the Anniversary  has a one year warranty . Other sellers list a three year warranty . Which is it ?"
+  Question B: "Does the warranty cover battery replacements for the cordless vac models?"
+  Preference: "Question A"
+
+- FEATURE: has_price_per_unit
+  Question A: "I think the price is listed wrong. Please check this item. It says $64.98 for 3."
+  Question B: "Does the price tag show how much it'll cost me per square foot of carpet it cleans, or just the upfront cost of the vacuum itself?"
+  Preference: "Neither"
+
+- FEATURE: assembly_required
+  Question A: "how do you take it apart for cleaning"
+  Question B: "Do I need tools to put the vacuum together or does it snap into place straight outta the box?"
+  Preference: "Both"
+
+- FEATURE: condition
+  Question A: "Is this a new unit or refurb?",
+  Question B: "How often do you need to replace the filters for this model, and can I wash them instead?"
+  Preference: "Question B"
+
+- FEATURE: cordless
+  Question A: "Is this cordless?"
+  Question B: "Can I swap out the battery on this vacuum for a fresh one if it dies mid-clean, or do I have to wait for it to recharge?"
+  Preference: "Question A"
+
+
+FEATURE: {feature}
+Question A: {real_user_question}
+Question B: {synthesized_question}

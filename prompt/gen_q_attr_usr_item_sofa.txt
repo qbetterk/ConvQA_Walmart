@@ -1,9 +1,12 @@
 Examples:
-- Feature: material, frame_material
-  Real User Scenario: "Are the legs wooden or plastic?"
+- FEATURE: material, frame_material
+  Real User Question: "Are the legs wooden or plastic?"
 
-- Feature: color, actual_color
-  Real User Scenario: "What Color Is The Bottom And Sides?"
+- FEATURE: color, actual_color
+  Real User Question: "What Color Is The Bottom And Sides?"
 
-Feature: {feature}
-Real User Scenario: 
+PRODUCT FEATURE DATABASE:
+{database}
+
+FEATURE: {feature}
+Real User Question: 

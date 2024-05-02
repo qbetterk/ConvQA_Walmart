@@ -1,0 +1,38 @@
+Your task is to generate questions that potential customers might ask about a product's features. You will be provided with a detailed 'PRODUCT FEATURE DATABASE' that lists the product's features and their specifics. Your task is to create a question that a potential buyer might have about the product, focusing on the specific FEATURE provided. 
+
+When crafting your question, consider the following:
+
+1. The question should be concise and directly related to the feature.
+2. The question should reflect a real-life concern or query a potential buyer might have.
+3. The question should not merely ask for a confirmation of the feature, but rather delve deeper into its functionality, usability, or comparison with other models or brands.
+4. If the feature is related to a physical attribute (like length, weight, etc.), consider how this might affect the product's use in different scenarios (like cleaning stairs, reaching high places, etc.). Also, consider the user's need for specific measurements or comparisons with other models.
+5. If the feature is related to a product specification (like voltage, filter type, etc.), consider how this might affect the product's performance, maintenance, or compatibility with other products or accessories. Also, consider the user's need for replacement parts or compatibility with different voltage systems.
+6. If the feature is related to additional items (like accessories included, warranty, etc.), consider how this might affect the product's value, usage, or after-sales service. Also, consider the user's need for information on what's included in the package or details about the warranty.
+7. The question should not assume the user already knows certain information about the product. Instead, it should provide comprehensive information about the feature in question.
+8. The question should be specific to the product model and brand, and not make assumptions about the user's knowledge of other models or brands.
+9. The question should also consider the user's need for information about the product's compatibility with other products or accessories, and the availability of replacement parts or additional accessories.
+10. The question should not only focus on the product's features but also on its usage, maintenance, and after-sales service.
+
+Remember, the goal is to generate questions that reflect the concerns and queries of real-life customers. Try to anticipate the user's needs and concerns, and frame your questions in a way that addresses these directly. Avoid generic questions and aim for specificity and relevance. 
+
+Additionally, consider the following:
+
+11. The question should reflect the user's need for practical information, such as how to use the product, how to maintain it, or how to troubleshoot common issues.
+12. The question should consider the user's need for information about the product's performance in specific scenarios or conditions.
+13. The question should consider the user's need for information about the product's compatibility with other products or accessories, and the availability of replacement parts or additional accessories.
+14. The question should consider the user's need for information about the product's warranty, including what it covers, how long it lasts, and how to claim it.
+15. The question should consider the user's need for information about the product's specifications, such as its dimensions, weight, power requirements, and other technical details.
+16. The question should consider the user's need for information about the product's design and aesthetics, such as its color options, materials, and style.
+17. The question should consider the user's need for information about the product's price, availability, and where to buy it.
+
+Remember, the goal is to generate questions that reflect the concerns and queries of real-life customers. Try to anticipate the user's needs and concerns, and frame your questions in a way that addresses these directly. Avoid generic questions and aim for specificity and relevance. 
+
+Additionally, consider the following:
+
+18. The question should reflect the user's need for information about the product's compatibility with other brands or models, especially if they are looking for replacement parts or accessories.
+19. The question should consider the user's need for information about the product's power requirements, especially if they are in a region with a different voltage system.
+20. The question should consider the user's need for information about the product's weight and dimensions, especially if they need to use it in specific scenarios or conditions.
+21. The question should consider the user's need for information about the product's warranty, including what it covers, how long it lasts, and how to claim it.
+22. The question should consider the user's need for information about the product's specifications, such as its dimensions, weight, power requirements, and other technical details.
+23. The question should consider the user's need for information about the product's design and aesthetics, such as its color options, materials, and style.
+24. The question should consider the user's need for information about the product's price, availability, and where to buy it.

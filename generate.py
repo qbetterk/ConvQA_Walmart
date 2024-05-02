@@ -52,6 +52,7 @@ class GPTGeneratorQ(GPTGeneratorBase):
         self.repeat_num = 3 # number of gen times if attr_post does not match attr_prior
         self.version_q = args.version_q
         self.gen_q_with_item = args.gen_q_with_item
+        self.prompt_sys_path = args.prompt_path if args.prompt_path else f"./prompt/gen_q_attr_sys_v{self.version_q}.txt"
 
     def extract_attributes(self):
         # # # load questions
@@ -128,8 +129,10 @@ class GPTGeneratorQ(GPTGeneratorBase):
                 if new_attr_name in new_pair_dict: continue
                 if self.gen_q_with_item:
                     database = self.sample_product(attrs=row["attribute"].split("; "))
-                    new_synthesized_question = self.generate_q_with_item(attr=row["attribute"], database=database)
+                    self.prompt_usr_path = f"./prompt/gen_q_attr_usr_item_{self.category}.txt"
+                    new_synthesized_question = self.generate_q_with_attr(attr=row["attribute"], database=database)
                 else:
+                    self.prompt_usr_path = f"./prompt/gen_q_attr_usr_{self.category}.txt"
                     new_synthesized_question = self.generate_q_with_attr(attr=row["attribute"])
                 # pdb.set_trace()
                 if not new_synthesized_question: break
@@ -145,7 +148,7 @@ class GPTGeneratorQ(GPTGeneratorBase):
         # adding index and transform into list
         new_pair_list = [{
             "index" : idx,
-            "attr"  : key_,
+            "attr"  : key_.split(": ")[-1],
             "real_user_question": value_["real_user_question"],
             "synthesized_question": value_["synthesized_question"],
             "database": value_["database"],
@@ -163,15 +166,21 @@ class GPTGeneratorQ(GPTGeneratorBase):
             questions[attr] = self.generate_q_with_attr(attr=attr)
         self._save_json(questions, f"{self.save_dir}/gen_attr_{self.category}_{self.model}.json")
 
-    def generate_q_with_attr(self, attr):
+    def generate_q_with_attr(self, attr=None, database=None):
         """
-        based on a sampled attribute, generate a question"""
-        SYS_PROMPT = self._load_txt(f"./prompt/gen_q_attr_sys_v{self.version_q}.txt", readlines=False)
-        USER_PROMPT = self._load_txt(f"./prompt/gen_q_attr_usr_{self.category}.txt", readlines=False)
+        based on a sampled attribute
+        or 
+        based on a sampled attribute and a sampled product info (attr-value pair), generate a question"""
+        SYS_PROMPT = self._load_txt(self.prompt_sys_path, readlines=False)
+        USER_PROMPT = self._load_txt(self.prompt_usr_path, readlines=False)
+        if self.gen_q_with_item:
+            USER_PROMPT = USER_PROMPT.format(feature=attr, database=database)
+        else:
+            USER_PROMPT = USER_PROMPT.format(feature=attr)
         for i in range(self.repeat_num):
             output = openai_api_chat(
                                 self.args, 
-                                input_seq=USER_PROMPT.format(feature=attr), 
+                                input_seq=USER_PROMPT, 
                                 system_prompt=SYS_PROMPT.format(category=self.category),
                                 temperature=1.0
                                 )
@@ -183,7 +192,6 @@ class GPTGeneratorQ(GPTGeneratorBase):
                 return output
             else:
                 print("")
-                print(self.validate_attr_overlap(attr, attr_post))
                 print(f"attr: {attr}")
                 print("attr_post", attr_post)
                 print(output)
@@ -200,31 +208,6 @@ class GPTGeneratorQ(GPTGeneratorBase):
         for attr in attrs.split(SPLIT):
             if attr not in attr_list: return False
         return True
-
-    def generate_q_with_item(self, attr=None, database=None):
-        """
-        based on a sampled attribute and a sampled product info (attr-value pair), generate a question"""
-        SYS_PROMPT = self._load_txt(f"./prompt/gen_q_attr_sys_v{self.version_q}.txt", readlines=False)
-        USER_PROMPT = self._load_txt(f"./prompt/gen_q_attr_usr_item_{self.category}.txt", readlines=False)
-        for i in range(self.repeat_num):
-            output = openai_api_chat(
-                                self.args, 
-                                input_seq=USER_PROMPT.format(feature=attr, database=database), 
-                                system_prompt=SYS_PROMPT.format(category=self.category),
-                                temperature=1.0
-                                )
-            output = output.strip('"')
-            # verify if generated question match the attr
-            attr_post = self.extract_attr_q(output)
-            # if attr_post == attr or attr in attr_post:
-            if self.validate_attr_overlap(attr, attr_post):
-                return output
-            else:
-                print("")
-                print(f"attr: {attr}")
-                print("attr_post", attr_post)
-                print(output)
-        return ""
 
 
 class GPTGeneratorA(GPTGeneratorBase):

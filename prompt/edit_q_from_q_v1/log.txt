@@ -1,0 +1,72 @@
+edit_q_from_q_sys_v1.txt
+sample_num = 20 # for both gen_q and sampled q
+
+#########
+V1:
+#########
+
+In this task, you will assist in generating concise and relevant customer inquiries about various product features. You have access to a comprehensive 'PRODUCT FEATURE DATABASE' that lists the product's features and their details and a FEATURE you need to ask about. Based on this information, craft ONE question that a potential buyer might have about the FEATURE. 
+
+#########
+V2:
+#########
+
+In this task, you will generate customer inquiries about various product features. You will be provided with a comprehensive 'PRODUCT FEATURE DATABASE' that lists the product's features and their details. Your task is to craft a question that a potential buyer might have about the product, focusing on the specific FEATURE provided. 
+
+Your question should be as specific and detailed as possible, reflecting real-life concerns and inquiries that customers might have. Consider the practical applications of the product and its features, and how they might affect the user's experience. 
+
+For example, if the feature is 'battery life', a potential question might be "How long does the battery last on a full charge, and how long does it take to recharge?" rather than "What is the battery life of this product?" 
+
+Remember, the goal is to generate questions that are as close as possible to the questions a real user might ask.
+
+#########
+V3:
+#########
+
+In this task, you will generate customer inquiries about various product features. You will be provided with a comprehensive 'PRODUCT FEATURE DATABASE' that lists the product's features and their details. Your task is to craft a question that a potential buyer might have about the product, focusing on the specific FEATURE provided. 
+
+Your question should be as specific and detailed as possible, reflecting real-life concerns and inquiries that customers might have. Consider the practical applications of the product and its features, and how they might affect the user's experience. 
+
+For example, if the feature is 'battery life', a potential question might be "How long does the battery last on a full charge, and how long does it take to recharge?" rather than "What is the battery life of this product?" 
+
+Remember, the goal is to generate questions that are as close as possible to the questions a real user might ask. 
+
+Additionally, consider the following points while generating questions:
+
+1. The questions should not only focus on the product's features but also on its compatibility with other products or accessories.
+2. The questions should reflect the user's concerns about the product's practicality, such as its weight, length, or how easy it is to use.
+3. The questions should also consider the user's need for additional information about the product, such as warranty details, available colors, or included accessories.
+4. The questions should reflect the user's concerns about the product's functionality, such as its power requirements, filter type, or cleaning methods.
+5. The questions should also consider the user's need for specific details about the product, such as its model number, brand, or any unique features it might have. 
+
+Remember, the goal is to generate questions that are as close as possible to the questions a real user might ask.
+
+#########
+V4:
+#########
+
+In this task, you will generate customer inquiries about various product features. You will be provided with a comprehensive 'PRODUCT FEATURE DATABASE' that lists the product's features and their details. Your task is to craft a question that a potential buyer might have about the product, focusing on the specific FEATURE provided. 
+
+Your question should be as specific and detailed as possible, reflecting real-life concerns and inquiries that customers might have. Consider the practical applications of the product and its features, and how they might affect the user's experience. 
+
+For example, if the feature is 'battery life', a potential question might be "How long does the battery last on a full charge, and how long does it take to recharge?" rather than "What is the battery life of this product?" 
+
+Remember, the goal is to generate questions that are as close as possible to the questions a real user might ask. 
+
+Additionally, consider the following points while generating questions:
+
+1. The questions should not only focus on the product's features but also on its compatibility with other products or accessories.
+2. The questions should reflect the user's concerns about the product's practicality, such as its weight, length, or how easy it is to use.
+3. The questions should also consider the user's need for additional information about the product, such as warranty details, available colors, or included accessories.
+4. The questions should reflect the user's concerns about the product's functionality, such as its power requirements, filter type, or cleaning methods.
+5. The questions should also consider the user's need for specific details about the product, such as its model number, brand, or any unique features it might have. 
+
+Remember, the goal is to generate questions that are as close as possible to the questions a real user might ask. 
+
+When generating questions, also consider:
+
+6. The user's need for specific information about the product's accessories and how they fit or work with the product.
+7. The user's concerns about the product's power supply, such as the length of the power cord or the voltage requirements.
+8. The user's need for information about the product's maintenance and cleaning, such as how to clean the canister and filters.
+9. The user's concerns about the product's warranty, such as what it covers and how to claim it.
+10. The user's need for information about the product's compatibility with accessories or parts from other brands or models.
