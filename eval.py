@@ -75,11 +75,11 @@ class GPTEvalQ(GPTEvalBase):
             output = openai_api_chat(self.args, input_seq=USER_PROMPT, system_prompt=SYS_PROMPT, temperature=0.1)
             pair["AutoEval"] = output.replace("Preference: ", "").strip('"')
             # print(USER_PROMPT)
-            # print(pair["AutoEval"], pair["annotation"])
             # pdb.set_trace()
             if pair["annotation"].startswith(pair["AutoEval"]):
                 count += 1
 
+            print(pair["AutoEval"], pair["annotation"], count)
 
         print(count, len(data_eval), count/len(data_eval))
         self._save_json(data_eval, os.path.join(self.eval_q_dir, "autoeval.json"))

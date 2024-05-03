@@ -93,6 +93,38 @@ class GPTPromptEditorQ(GPTPromptEditorBase):
             print()
 
 
+    def edit_eval_prompt(self):
+        """
+        This function edits agent evaluation prompt based on human annotation"""
+        
+        eval_data = self._load_json(f"./annotations/autoeval_v{self.version_q}.json")
+        eval_data_sample = random.sample(eval_data, k=self.sample_num)
+        eval_q_pair = ""
+        for pair in eval_data_sample:
+            eval_q_pair += f"PRODUCT FEATURE DATABASE:\n{pair['database']}\n"
+            eval_q_pair += f"FEATURE: {pair['attr']}\n"
+            eval_q_pair += f"Real User Question: {pair['real_user_question']}\n"
+            eval_q_pair += f"Generated Question: {pair['synthesized_question']}\n"
+            eval_q_pair += f"Human Preference: {pair['annotation']}\n"
+            eval_q_pair += f"Agent Preference: {pair['AutoEval']}\n\n"
+
+            # print("real user questions:", pair["real_user_question"])
+            # print("generated questions:", pair["synthesized_question"])
+            # print()
+
+        eval_q_prompt_sys = self._load_txt(f"./prompt/edit_eval_prompt/refine_eval_q_sys_v{self.version_q}.txt", readlines=False)
+        eval_q_prompt_usr = self._load_txt(f"./prompt/eval_q_usr_{self.category}.txt", readlines=False)
+        SYS_PROMPT = self._load_txt("./prompt/edit_eval_prompt_sys_v1.txt", readlines=False)
+        USER_PROMPT = self._load_txt("./prompt/edit_eval_prompt_usr.txt", readlines=False)
+        USER_PROMPT = USER_PROMPT.format(eval_q_prompt_sys=eval_q_prompt_sys, eval_q_prompt_usr=eval_q_prompt_usr, eval_q_pair=eval_q_pair)
+
+        print(SYS_PROMPT, "\n")
+        print(USER_PROMPT)
+        output = openai_api_chat(self.args, input_seq=USER_PROMPT, system_prompt=SYS_PROMPT, temperature=0)
+        with open(f"./prompt/edit_q_from_q_v1/refine_gen_q_sys_v{self.version_q + 1}.txt", "w") as tf:
+            tf.write(output)
+            print(f"Saving revised prompt file: ./prompt/edit_q_from_q_v1/refine_gen_q_attr_sys_v{self.version_q + 1}.txt ...")
+
 
 def main():
     args = parse_args()
