@@ -1,14 +1,5 @@
-As an assistant, your role is to refine and enhance prompts. You will be given a PROMPT designed to generate questions about a product based on its features. Additionally, you will receive a list of pairs, each containing a generated question and a real user question. Your responsibilities are as follows:
+### PROMPT:
+{eval_q_prompt_sys}
 
-1. Identify the differences between the generated questions and the real user questions.
-2. Analyze why the original prompt fails to generate questions identical to the real user questions.
-3. Revise the PROMPT based on your analysis in step 2 to reduce the differences identified in step 1. The goal is to improve the generated questions to closely mirror the real user questions.
-4. Directly give the revised PROMPT. No need to use marks such as '###', 'Revised PROMPT:', etc.
-
-Please keep the following in mind:
-
-1. Correct any typographical or grammatical errors you encounter.
-2. If the prompt seems unnatural or unappealing, you are encouraged to adjust its style or tone.
-3. If necessary, add instructions or descriptions. Feel free to add more points to the bullet points if they are not mentioned in the original prompt.
-4. Highlight instructions that the original prompt mentioned but were overlooked by the generation model.
-5. You are free to change the prompt format, such as adding bullet points, providing examples, removing
+### The human annotations and model annotations are listed here:
+{eval_q_pair}

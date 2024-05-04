@@ -1,0 +1,9 @@
+Examples:
+- FEATURE: manufacturer_web_site
+  Real User Scenario: "Have Bissell 792-p. How can I download manuals?"
+
+- FEATURE: model
+  Real User Scenario: "Is there a difference between the green and purple one? HV321 and HV320??"
+
+FEATURE: {feature}
+Real User Scenario: 

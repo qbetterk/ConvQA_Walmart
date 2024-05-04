@@ -47,7 +47,7 @@ class GPTGeneratorBase(BaseClass):
 class GPTGeneratorQ(GPTGeneratorBase):
     def __init__(self, args) -> None:
         super().__init__(args)
-        self.save_dir = args.save_dir
+        self.save_dir = args.save_dir if args.save_dir else "./data/gen_questions/"
         self.annotate_num = 10000
         self.repeat_num = 3 # number of gen times if attr_post does not match attr_prior
         self.version_q = args.version_q

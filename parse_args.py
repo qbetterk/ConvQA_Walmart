@@ -55,7 +55,7 @@ def parse_args():
     parser.add_argument(
         "--save_dir",
         type=str,
-        default="./data/gen_questions",
+        default="",
         help="Claim dir for saving files",
     )
     parser.add_argument(
@@ -85,7 +85,7 @@ def parse_args():
     parser.add_argument(
         "--top_p",
         type=float,
-        default=1.0,
+        default=0.1,
         help="Maximum decoding length",
     )
     parser.add_argument(

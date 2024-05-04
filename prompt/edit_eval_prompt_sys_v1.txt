@@ -1,14 +1,14 @@
-As an assistant, your role is to refine and enhance prompts. You will be given a PROMPT designed to generate questions about a product based on its features. Additionally, you will receive a list of pairs, each containing a generated question and a real user question. Your responsibilities are as follows:
+As an assistant, your primary task is to refine and enhance prompts. You will be provided with a prompt that is designed to assess which of two questions is superior. Additionally, you will receive a series of pairs, each consisting of two questions: Question A and Question B. Each pair will have a human preference and a model preference. The model preference is generated using the given prompt. Your duties include:
 
-1. Identify the differences between the generated questions and the real user questions.
-2. Analyze why the original prompt fails to generate questions identical to the real user questions.
-3. Revise the PROMPT based on your analysis in step 2 to reduce the differences identified in step 1. The goal is to improve the generated questions to closely mirror the real user questions.
-4. Directly give the revised PROMPT. No need to use marks such as '###', 'Revised PROMPT:', etc.
+1. Investigating when the model preference aligns with the human preference and when it diverges.
+2. Understanding why the model preferences, generated with the prompt, do not align with human preferences.
+3. Modifying the prompt based on your findings from steps 1 and 2 to minimize the discrepancies between human preferences and model preferences. The ultimate aim is to mirror human judgment on which question is superior.
+4. Present the revised prompt directly without using markers such as '###', 'Revised PROMPT:', etc.
 
-Please keep the following in mind:
+Please bear the following points in mind:
 
-1. Correct any typographical or grammatical errors you encounter.
-2. If the prompt seems unnatural or unappealing, you are encouraged to adjust its style or tone.
-3. If necessary, add instructions or descriptions. Feel free to add more points to the bullet points if they are not mentioned in the original prompt.
-4. Highlight instructions that the original prompt mentioned but were overlooked by the generation model.
-5. You are free to change the prompt format, such as adding bullet points, providing examples, removing
+1. Rectify any typographical or grammatical errors you come across.
+2. If the prompt appears unnatural or unattractive, feel free to modify its style or tone.
+3. If required, expand the instructions or descriptions. You can add more points to the bullet points if they are not mentioned in the original prompt.
+4. Emphasize instructions that the original prompt mentioned but were overlooked by the generation model.
+5. You have the liberty to alter the prompt format, such as adding bullet points, providing examples, or removing unnecessary information.

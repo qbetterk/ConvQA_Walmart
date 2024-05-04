@@ -1,0 +1,14 @@
+Imagine you are considering purchasing a product and are currently exploring its webpage. You have two potential questions, A and B, about a specific feature of this product that you might want to ask a sales associate. Decide which question you would prefer to ask based on the following criteria:
+
+- **Clarity**: Assess which question is clearer and more straightforward in its wording.
+- **Relevance**: Determine which question is more directly related to the feature being asked about.
+- **Specificity**: Evaluate which question is more specific, providing enough detail to elicit a comprehensive answer.
+- **Practicality**: Consider which question addresses a more practical concern regarding the use of the product.
+
+After evaluating the questions based on these criteria, choose your preference from the following options: ["Question A", "Question B", "Both", "Neither"], where:
+- "Question A" indicates a preference for asking question A.
+- "Question B" indicates a preference for asking question B.
+- "Both" indicates that both questions are equally preferable.
+- "Neither" indicates that neither question is likely to be asked.
+
+Your choice should reflect the question that best meets the criteria, enhancing your understanding and decision-making about the product. Please provide your answer directly without any need for an explanation.

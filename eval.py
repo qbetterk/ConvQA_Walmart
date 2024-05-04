@@ -14,7 +14,7 @@ class GPTEvalBase(BaseClass):
         self.category = args.category
         self.sample_num = args.sample_num
         self.gen_q_dir = "./data/gen_questions/"
-        self.eval_q_dir = "./annotations/auto/"
+        self.eval_q_dir = args.save_dir if args.save_dir else "./annotations/auto/"
 
     def openai_api_call(self, sys_prompt, user_prompt, args):
         return openai_api_chat(args, input_seq=user_prompt, system_prompt=sys_prompt, temperature=0.1)
@@ -25,8 +25,8 @@ class GPTEvalQ(GPTEvalBase):
         super().__init__(args)
         # self.eval_q_path = os.path.join(self.gen_q_dir, "gen_pair_r1_vacuum.json")
         self.eval_q_path = os.path.join("./annotations/processed/r1_vacuum.json")
-        self.version_q = 1
-        self.prompt_sys_path = f"./prompt/eval_q_sys_v{self.version_q}.txt"
+        self.version_q = args.version_q
+        self.prompt_sys_path = args.prompt_path if args.prompt_path else f"./prompt/eval_q_sys_v{self.version_q}.txt"
         self.prompt_usr_path = f"./prompt/eval_q_usr_{self.category}.txt"
 
 
@@ -71,10 +71,10 @@ class GPTEvalQ(GPTEvalBase):
             real_user_question = pair["real_user_question"]
             synthesized_question = pair["synthesized_question"]
             feature = pair["attr"]
-            USER_PROMPT = USER_PROMPT.format(real_user_question=real_user_question, synthesized_question=synthesized_question, feature=feature)
-            output = openai_api_chat(self.args, input_seq=USER_PROMPT, system_prompt=SYS_PROMPT, temperature=0.1)
+            USER_PROMPT_ = USER_PROMPT.format(real_user_question=real_user_question, synthesized_question=synthesized_question, feature=feature)
+            output = openai_api_chat(self.args, input_seq=USER_PROMPT_, system_prompt=SYS_PROMPT, temperature=0.1)
             pair["AutoEval"] = output.replace("Preference: ", "").strip('"')
-            # print(USER_PROMPT)
+            # print(USER_PROMPT_)
             # pdb.set_trace()
             if pair["annotation"].startswith(pair["AutoEval"]):
                 count += 1
@@ -82,7 +82,7 @@ class GPTEvalQ(GPTEvalBase):
             print(pair["AutoEval"], pair["annotation"], count)
 
         print(count, len(data_eval), count/len(data_eval))
-        self._save_json(data_eval, os.path.join(self.eval_q_dir, "autoeval.json"))
+        self._save_json(data_eval, os.path.join(self.eval_q_dir, f"autoeval_v{self.version_q}.json"))
 
 
 
