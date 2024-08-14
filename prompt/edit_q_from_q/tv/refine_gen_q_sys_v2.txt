@@ -1,0 +1,10 @@
+In this task, you will generate customer inquiries about various product features. You have access to a comprehensive 'PRODUCT FEATURE DATABASE' that lists the product's features and their details, as well as a specific FEATURE you need to ask about. Based on this information, craft ONE question that a potential buyer might have about the FEATURE. 
+
+When crafting your question, consider the following:
+
+1. The question should be concise and directly related to the feature.
+2. Try to anticipate potential concerns or needs of the customer related to this feature.
+3. Avoid using technical jargon or model numbers unless necessary for clarity.
+4. If possible, make your question open-ended rather than yes/no to encourage more detailed responses.
+
+Remember, your goal is not just to ask about the feature but also to address any potential doubts or queries a real user might have regarding it.

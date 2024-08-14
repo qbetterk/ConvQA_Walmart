@@ -1,14 +1,13 @@
-Imagine you are considering purchasing a product and are currently exploring its webpage. You have two potential questions, A and B, about a specific feature of this product that you might want to ask a sales associate. Decide which question you would prefer to ask based on the following criteria:
+When deciding which question to ask about a specific feature of a product, use the following criteria to determine which question is superior:
 
-- **Clarity**: Assess which question is clearer and more straightforward in its wording.
-- **Relevance**: Determine which question is more directly related to the feature being asked about.
-- **Specificity**: Evaluate which question is more specific, providing enough detail to elicit a comprehensive answer.
-- **Practicality**: Consider which question addresses a more practical concern regarding the use of the product.
+- **Relevance**: The question should be directly related to the feature being discussed. It must address the feature in a manner that is pertinent to the product's use or function, ensuring that it is contextually appropriate.
 
-After evaluating the questions based on these criteria, choose your preference from the following options: ["Question A", "Question B", "Both", "Neither"], where:
-- "Question A" indicates a preference for asking question A.
-- "Question B" indicates a preference for asking question B.
-- "Both" indicates that both questions are equally preferable.
-- "Neither" indicates that neither question is likely to be asked.
+- **Clarity and Specificity**: The question must be formulated clearly and specifically. It should avoid vague terms and be precise enough to ensure that the person answering can easily understand what information is being requested.
 
-Your choice should reflect the question that best meets the criteria, enhancing your understanding and decision-making about the product. Please provide your answer directly without any need for an explanation.
+- **Usefulness**: The question should be likely to elicit information that will aid in making a purchasing decision. Consider whether the answer to the question will provide valuable insights that affect the usability or desirability of the product.
+
+- **Practicality**: Ensure the question is realistic and practical, considering what a sales associate or a product manual is likely to know or provide. Avoid questions that require speculative or overly technical responses that may not be readily available.
+
+Choose the most suitable question from the options: ["Question A", "Question B", "Both", "Neither"]. Here, "Question A" indicates a preference for asking question A, "Question B" for question B, "Both" if both questions are equally good, and "Neither" if neither question is likely to be useful.
+
+Focus on the potential of each question to provide valuable insights rather than just the format or phrasing of the questions. This approach ensures that the chosen question maximizes the effectiveness of your inquiry, aiding significantly in your decision-making process regarding the product.

@@ -1,14 +1,10 @@
-Imagine you are considering purchasing a product and are currently exploring its webpage. You have two potential questions, A and B, about a specific feature of this product that you might want to ask a sales associate. Decide which question you would prefer to ask based on the following criteria:
+When deciding which question to ask about a specific feature of a product, consider the following criteria to determine which question is superior:
 
-- **Clarity**: Assess which question is clearer and more straightforward in its wording.
-- **Relevance**: Determine which question is more directly related to the feature being asked about.
-- **Specificity**: Evaluate which question is more specific, providing enough detail to elicit a comprehensive answer.
-- **Practicality**: Consider which question addresses a more practical concern regarding the use of the product.
+- **Relevance**: The question should be directly related to the feature in question.
+- **Clarity and Specificity**: The question should be clear and specific, avoiding ambiguity and making it easy for the sales associate to understand what information is being requested.
+- **Usefulness**: The question should be likely to elicit information that is helpful in making a purchasing decision.
+- **Practicality**: The question should be appropriate and practical in a real-world scenario, considering what a sales associate is likely to know or have access to.
 
-After evaluating the questions based on these criteria, choose your preference from the following options: ["Question A", "Question B", "Both", "Neither"], where:
-- "Question A" indicates a preference for asking question A.
-- "Question B" indicates a preference for asking question B.
-- "Both" indicates that both questions are equally preferable.
-- "Neither" indicates that neither question is likely to be asked.
+Based on these criteria, choose the most suitable question from the options: ["Question A", "Question B", "Both", "Neither"]. Here, "Question A" indicates a preference for asking question A, "Question B" for question B, "Both" if both questions are equally good, and "Neither" if neither question is likely to be useful.
 
-Your choice should reflect the question that best meets the criteria, enhancing your understanding and decision-making about the product. Please provide your answer directly without any need for an explanation.
+When making your choice, focus on the potential of each question to provide valuable insights rather than just the format or phrasing of the questions. This approach ensures that the chosen question maximizes the effectiveness of your inquiry, aiding significantly in your decision-making process regarding the product.

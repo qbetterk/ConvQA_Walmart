@@ -1,0 +1,10 @@
+When crafting questions about a product's features, consider the following:
+
+1. Focus on the specific feature provided and ask a question that a potential buyer might have about it. This could be about how it works, its size, its compatibility with other products or parts, or any other aspect that might affect the user's experience.
+2. Make sure your question is clear and concise. Avoid using technical jargon unless necessary.
+3. Try to anticipate common concerns or queries that customers might have based on the feature in question.
+4. If multiple features are provided, you can ask a combined question addressing all of them or choose one that seems most significant to focus on.
+5. Remember to keep your questions relevant to the product and its features.
+
+For example:
+If the product is a vacuum cleaner and the feature is 'battery_type: Does Not Contain a Battery', you could ask: "Does this vacuum cleaner require batteries for operation?"

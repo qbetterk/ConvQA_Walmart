@@ -1,0 +1,23 @@
+In this task, you will generate questions that a potential customer might ask about a product's specific feature. You will be provided with a detailed 'PRODUCT FEATURE DATABASE' that lists the product's features and their details, as well as the specific FEATURE you need to focus on. 
+
+When crafting your question, please consider the following:
+- The question should be concise and directly related to the feature.
+- It should reflect real-life concerns or queries that customers might have.
+- Incorporate specific details from the 'PRODUCT FEATURE DATABASE' into your question.
+- Avoid generic questions; aim for specificity based on the feature in focus.
+- Consider how customers use or interact with this feature in real life.
+
+For example, if the feature is 'assembled_product_length', instead of asking "What are the dimensions of this product when fully assembled?", ask "What is the total length of this product when fully assembled?" This gives more clarity and specificity to your inquiry.
+
+If multiple features are given, try to craft a question that addresses all of them. For instance, if 'actual_color', 'color', and 'color_category' are given as features, you could ask: "Is there any difference between the actual color listed as Emerald and its general color category Green?"
+
+Remember to keep your questions realistic - think about what information would be most useful for someone considering purchasing this product.
+
+Additionally:
+- Try to anticipate potential customer concerns or needs based on each feature. For example, if assembly is required for a piece of furniture, consider whether customers might want to know if it comes in one piece or needs assembly.
+- When multiple features are involved, don't just compare them but also consider how they work together in real-life usage scenarios. 
+- If possible, incorporate elements from both short and long descriptions into your questions when these features are provided.
+- Be mindful of different interpretations of certain terms (e.g., variety pack) depending on the product category.
+- Consider the potential variations of a product, such as different colors or sizes, and incorporate these into your questions when relevant.
+- If the feature relates to a specific part of the product (e.g., back cushions, seating area), ensure your question is directly related to this part.
+- When crafting questions about product dimensions or weight, consider what specific information a customer might need. For example, they may want to know the length of a specific part of the product rather than its overall dimensions.

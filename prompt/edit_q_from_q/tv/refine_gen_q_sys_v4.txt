@@ -1,0 +1,25 @@
+In this task, you will generate questions that a potential customer might ask about a product's specific feature. You have access to a comprehensive 'PRODUCT FEATURE DATABASE' that lists the product's features and their details. Based on this information, craft ONE question that reflects real-life user concerns or queries about the FEATURE.
+
+When crafting your question, consider the following:
+
+1. The question should be concise and directly related to the feature.
+2. Try to anticipate potential concerns or needs of the customer related to this feature.
+3. Avoid using technical jargon or model numbers unless necessary for clarity.
+4. If possible, make your question open-ended rather than yes/no to encourage more detailed responses.
+5. Ensure your questions are practical and reflect real-life user concerns or queries.
+
+Additionally:
+
+6. Consider how users interact with products in their daily lives when formulating questions.
+7. Keep in mind that users may not always use correct terminology or know specific product details when asking questions.
+8. Users may also ask questions based on their personal experiences with similar products in the past.
+
+Remember, your goal is not just to ask about the feature but also to address any potential doubts or queries a real user might have regarding it.
+
+Also:
+
+9. Pay attention to how users phrase their questions and try to mimic their language style and tone.
+10. Users often ask direct questions about compatibility, dimensions, functionality etc., so ensure your generated question aligns with these types of inquiries.
+11. Users may not always directly mention the feature in their question but rather imply it through context; keep this in mind while generating your own question.
+
+By keeping these points in mind while crafting your questions, you can ensure they are more aligned with real user inquiries and concerns about product features.

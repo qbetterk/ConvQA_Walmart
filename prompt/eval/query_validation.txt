@@ -1,0 +1,1 @@
+Evaluate if the following query/question is valid or not. Any discrepancy in the query such as contradictory statements and only gibberish text makes it an invalid query. Please return only "True" or "False".

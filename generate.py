@@ -20,6 +20,7 @@ class GPTGeneratorBase(BaseClass):
         self.random_seed = args.seed
         self.category = args.category
         self.sample_num = args.sample_num
+
   
     def sample_product(self, attrs=None):
         """
@@ -31,16 +32,17 @@ class GPTGeneratorBase(BaseClass):
         if attrs: default_attrs += attrs
         file_idx = random.randint(1, 20) # 0 for test
         file_path = f"./data/from_walmart/products/{self.category}/{file_idx}.json"
-        data = self._load_json(file_path)
+        data = self._load_json(file_path, verbose=False)
         item = random.choice(data) # data[0] #
-        attr_list = []
+        attr_list, attrs_full = [], {}
         for attr in item["PROD_ATTR_NM_VAL_LST_TXT"]:
-            if attrs and attr["key"] not in default_attrs: continue
-            if len(str(attr["value"])) > 1000: continue
             if attr["value"] == "N": attr["value"] = "No"
             if attr["value"] == "Y": attr["value"] = "Yes"
+            attrs_full[attr["key"]] = str(attr["value"])
+            if attrs and attr["key"] not in default_attrs: continue
+            if len(str(attr["value"])) > 1000: continue
             attr_list.append(attr["key"]+": "+str(attr["value"]))
-        return "\n".join(attr_list)
+        return "\n".join(attr_list), attrs_full
         # return "\n ".join([attr["key"]+": "+str(attr["value"]) for attr in item["PROD_ATTR_NM_VAL_LST_TXT"]])
 
 
@@ -118,17 +120,16 @@ class GPTGeneratorQ(GPTGeneratorBase):
         attr_list = self._load_txt(attribute_path)
         csv_path = f"./data/from_walmart/examples/category_questions/{self.category}_questions/{self.category}_questions_wi_attr.csv"
         data_ori = self._load_csv(csv_path)
+        data_ori = data_ori.sample(frac=1).reset_index(drop=True) # shuffle
         new_pair_dict = {}
-        # database = self.sample_product() if self.gen_q_with_item else ""
         for _, row in tqdm(data_ori.iterrows()):
-            # row["attribute"] can contain multiple attribute
             if not self.validate_attrs(row["attribute"], attr_list): continue
 
             for i in range(num_for_attr):
                 new_attr_name = str(i) + ": " + row["attribute"]
                 if new_attr_name in new_pair_dict: continue
                 if self.gen_q_with_item:
-                    database = self.sample_product(attrs=row["attribute"].split("; "))
+                    database, database_full = self.sample_product(attrs=row["attribute"].split("; "))
                     self.prompt_usr_path = f"./prompt/gen_q_attr_usr_item_{self.category}.txt"
                     new_synthesized_question = self.generate_q_with_attr(attr=row["attribute"], database=database)
                 else:
@@ -152,10 +153,12 @@ class GPTGeneratorQ(GPTGeneratorBase):
             "real_user_question": value_["real_user_question"],
             "synthesized_question": value_["synthesized_question"],
             "database": value_["database"],
+            "database_full": database_full
         } for idx, (key_, value_) in enumerate(new_pair_dict.items())]
 
         save_file_name = f"gen_pair_v{self.version_q}_{self.category}_{self.model}_{self.sample_num}.json" if not self.args.save_filename else self.args.save_filename
         self._save_json(new_pair_list, os.path.join(self.save_dir, save_file_name))
+
 
     def generate_q_with_attrs(self):
         attribute_path = f"./data/from_walmart/attributes/{self.category}_product_attributes.txt"
@@ -165,6 +168,7 @@ class GPTGeneratorQ(GPTGeneratorBase):
         for attr in tqdm(attrs):
             questions[attr] = self.generate_q_with_attr(attr=attr)
         self._save_json(questions, f"{self.save_dir}/gen_attr_{self.category}_{self.model}.json")
+
 
     def generate_q_with_attr(self, attr=None, database=None):
         """
@@ -197,6 +201,7 @@ class GPTGeneratorQ(GPTGeneratorBase):
                 print(output)
         return ""
 
+
     def validate_attr_overlap(self, attr, attr_post):
         # validate if attributes for generation and after generation match
         # here we consider they match if they have at least one same attribute
@@ -214,7 +219,7 @@ class GPTGeneratorA(GPTGeneratorBase):
     def __init__(self, args) -> None:
         super().__init__(args)
         self.save_dir = "./data/gen_answers"
-        self.questions_dir = "./data/gen_questions"
+        self.questions_dir = "./data/gen_questions/refine/"
         self.version_q = args.version_q
         self.version_a = args.version_a
 
@@ -270,12 +275,230 @@ class GPTGeneratorA(GPTGeneratorBase):
         self._save_json(answers, f"{self.save_dir}/gen_vq{self.version_q}a{self.version_a}_{self.category}_{self.model}_{self.sample_num}.json")
 
 
+class GPTGeneratorQA(GPTGeneratorQ, GPTGeneratorA):
+    def __init__(self, args) -> None:
+        super().__init__(args)
+        self.version_q = args.version_q
+        self.version_a = args.version_a
+        self.save_path = os.path.join("./data/gen_pairs", f"gen_pair_vq{args.version_q}a{args.version_a}_{self.category}_{self.model}_{self.sample_num}.json")
+        self.attribute_path = f"./data/from_walmart/attributes/{self.category}_product_attributes.txt"
+
+    def gen_pairs(self):
+        attrs = self._load_txt(self.attribute_path)
+        data = self._load_json(self.save_path) if os.path.exists(self.save_path) else []
+
+        Q_SYS_PROMPT = self._load_txt(f"prompt/edit_q_from_q/{self.category}/refine_gen_q_sys_v{self.version_q}.txt", readlines=False)
+        Q_USER_PROMPT = self._load_txt(f"prompt/gen_q_attr_usr_item_{self.category}.txt", readlines=False)
+        A_SYS_PROMPT = self._load_txt(f"./prompt/gen_a_sys_v{self.version_a}.txt", readlines=False)
+        A_USER_PROMPT = self._load_txt(f"./prompt/gen_a_usr.txt", readlines=False)
+
+        # count attr_mismatch
+        iter_max = 10 * self.sample_num
+        count_mismatch, count_all, count_fail, idx, iter_ =  0, 0, 0, 0, 0
+        pbar = tqdm(total = self.sample_num)
+        while idx < self.sample_num and iter_ < iter_max:
+            iter_ += 1
+            if idx < len(data): 
+                data[idx]["index"] = idx
+                idx += 1
+                pbar.update(1)
+                continue
+            self.attr_mismatch = 0
+            # sample attribute
+            attr = random.choice(attrs)
+            # sample database
+            database, database_full = self.sample_product(attrs=[attr])
+            # generate questions
+            question = self.generate_q(attr=attr, database=database, sys_prompt=Q_SYS_PROMPT, user_prompt=Q_USER_PROMPT, verify_attr=False)
+            if not question: 
+                count_fail += 1
+                continue
+            # check if generated question is still about the original "attr"
+            attr_post = self.extract_attr_q(question)
+            # if not, we add relevant data value to "database"
+            if attr not in attr_post:
+                database = self.argu_database(database, attr_post, database_full)
+            count_mismatch += self.attr_mismatch
+            count_all += 1
+            answer = self.generate_a(database=database, question=question, sys_prompt=A_SYS_PROMPT, user_prompt=A_USER_PROMPT)
+            data.append({
+                "index": idx,
+                "attr": attr,
+                "synthesized": {
+                    "question": question,
+                    "answer": answer,
+                },
+                "database": database,
+                "database_full": database_full,
+            })
+            idx += 1
+            pbar.update(1)
+            if idx % (self.sample_num/10) == 0: 
+                self._save_json(data, self.save_path)
+                # print(f"Mismatch report: {count_mismatch} / {count_all}, with a rate of {count_mismatch / count_all}")
+                # print(f"Failure report: {count_fail} / {count_all + count_fail}, with a rate of {count_mismatch / (count_all+count_fail)}")
+        self._save_json(data, self.save_path)
+    
+
+    def argu_database(self, database, attr_post, database_full):
+        for attr in attr_post.split(";"):
+            attr = attr.strip()
+            if attr not in database_full:
+                # pdb.set_trace()
+                print(attr_post)
+            else:
+                database += f"\n{attr}: {database_full[attr]}"
+        return database
+
+
+    def generate_q(self, attr=None, database=None, sys_prompt="", user_prompt="", verify_attr=True):
+        """
+        based on a sampled attribute
+        or 
+        based on a sampled attribute and a sampled product info (attr-value pair), generate a question"""
+        for i in range(self.repeat_num):
+            output = openai_api_chat(
+                                self.args, 
+                                input_seq=user_prompt.format(feature=attr, database=database), 
+                                system_prompt=sys_prompt.format(category=self.category),
+                                temperature=1.0
+                                )
+            output = output.strip('"')
+            # verify if generated question match the attr
+            attr_post = self.extract_attr_q(output)
+            # if attr_post == attr or attr in attr_post:
+            if not verify_attr:
+                return output
+            elif self.validate_attr_overlap(attr, attr_post):
+                return output
+            else:
+                print("")
+                print(f"attr: {attr}")
+                print("attr_post", attr_post)
+                print(output)
+                self.attr_mismatch = 1
+        return ""
+
+
+    def generate_a(self, database=None, question=None, sys_prompt="", user_prompt=""):
+        """
+        based on sampled item and generated questions, generate an answer
+        information is created for specific product"""
+        output = openai_api_chat(
+                            self.args, 
+                            input_seq=user_prompt.format(product_info=database, question=question), 
+                            system_prompt=sys_prompt.format(category=self.category),
+                            temperature=0.1
+                            )
+        output = output.strip('"')
+        return output
+
+
+class GPTGeneratorDial(GPTGeneratorBase):
+    def __init__(self, args) -> None:
+        super().__init__(args)
+        self.args = args
+        self.save_path = f"./data/gen_dial/gen_vq{args.version_q}a{args.version_a}_{self.category}_{self.model}_{self.sample_num}.json"
+        self.qa_path = f"./data/gen_pairs/gen_pair_vq{args.version_q}a{args.version_a}_{self.category}_{self.model}_200.json"
+
+    def generate_dial(self):
+        SYS_PROMPT = self._load_txt("prompt/dialoguize_sys.txt", readlines=False)
+        SYS_PROMPT = self._load_txt("prompt/dialoguize_wo_eg.txt", readlines=False)
+        qa_pairs = self._load_json(self.qa_path)
+        data = self._load_json(self.save_path) if os.path.exists(self.save_path) else []
+        self.count = {"dial":0, "turn":0, "qa":0, "unknown_turn":0}
+        for i in tqdm(range(self.sample_num)):
+            if i < len(data): continue
+            # sample qa pairs
+            k = random.choice([3,4,5])
+            pairs = random.sample(qa_pairs, k=k)
+            USR_PROMPT = self.create_user_prompt(pairs)
+            # generate questions
+            dialogue = openai_api_chat(
+                            self.args, 
+                            input_seq=USR_PROMPT, 
+                            system_prompt=SYS_PROMPT,
+                            temperature=1
+                            )
+            # pdb.set_trace()
+            data.append({
+                "index": i,
+                "turns": dialogue.split("\n\n"),
+                "pairs": pairs
+            })
+            self.count["dial"] += 1
+            self.count["turn"] += len(dialogue.split("\n\n"))
+            self.count["qa"] += k
+            # import pdb
+            # pdb.set_trace()
+            if i % (self.sample_num/10) == 0: 
+                self._save_json(data, self.save_path)
+                print(self.count)
+        self._save_json(data, self.save_path)
+        print(self.count)
+
+    def create_user_prompt(self, pairs):
+        indices = ["First", "Second", "Third", "Fourth", "Fifth"]
+        prompt = ""
+        for idx, pair in enumerate(pairs):
+            prompt += f"### {indices[idx]} pair\n"
+            prompt += f"question: {pair['synthesized']['question']}\n"
+            prompt += f"answer: {pair['synthesized']['answer']}\n\n"
+            if pair['synthesized']['answer'].startswith("[Unknown]"):
+                self.count["unknown_turn"] += 1
+        prompt += "\n### Dialogue\n"
+        return prompt
+        
+    def generate_dial_topdown(self):
+        self.save_path = f"./data/gen_dial_topdown/gen_vq{self.args.version_q}a{self.args.version_a}_{self.category}_{self.model}_{self.sample_num}.json"
+        SYS_PROMPT = self._load_txt("prompt/dialoguize_sys_topdown.txt", readlines=False)
+        qa_pairs = self._load_json(self.qa_path)
+        data = self._load_json(self.save_path) if os.path.exists(self.save_path) else []
+        for i in tqdm(range(self.sample_num)):
+            if i < len(data): continue
+            # sample qa pairs
+            k = random.choice([3,4,5])
+            pairs = random.sample(qa_pairs, k=k)
+            USR_PROMPT = self.create_user_prompt_topdown(pairs)
+            # generate questions
+            dialogue = openai_api_chat(
+                            self.args, 
+                            input_seq=USR_PROMPT, 
+                            system_prompt=SYS_PROMPT,
+                            temperature=1
+                            )
+            # pdb.set_trace()
+            data.append({
+                "index": i,
+                "turns": dialogue.split("\n\n"),
+                "database": USR_PROMPT,
+            })
+            if i % (self.sample_num/10) == 0: 
+                self._save_json(data, self.save_path)
+        self._save_json(data, self.save_path)
+
+    def create_user_prompt_topdown(self, pairs):
+        # indices = ["First", "Second", "Third", "Fourth", "Fifth"]
+        prompt = "### Database\n"
+        for idx, pair in enumerate(pairs):
+            if pair["attr"] in pair["database"]:
+                prompt += pair["database"] + "\n"
+            else:
+                prompt += pair["database"] + f"\n{pair['attr']}: None\n"
+        prompt += "\n### Dialogue\n"
+        return prompt
+
+
 def main():
     args = parse_args()
     if args.target == "question":
         gen = GPTGeneratorQ(args)
     elif args.target == "answer":
         gen = GPTGeneratorA(args)
+    elif args.target == "pair":
+        gen = GPTGeneratorQA(args)
+    elif args.target == "dial":
+        gen = GPTGeneratorDial(args)
     else:
         raise ValueError("Choose to generate questions or answers")
 

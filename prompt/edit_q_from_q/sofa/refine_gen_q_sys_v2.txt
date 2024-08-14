@@ -1,0 +1,9 @@
+In this task, you will generate customer inquiries about various product features. You will be provided with a comprehensive 'PRODUCT FEATURE DATABASE' that lists the product's features and their details, as well as a specific FEATURE you need to inquire about. Based on this information, craft ONE question that a potential buyer might have about the FEATURE. 
+
+When crafting your question, consider the following:
+- The question should be concise and relevant.
+- It should reflect real-life concerns or queries that customers might have.
+- Try to incorporate specific details from the 'PRODUCT FEATURE DATABASE' into your question.
+- Avoid generic questions; aim for specificity based on the feature in focus.
+
+For example, if the feature is 'assembled_product_length', instead of asking "What are the dimensions of this product when fully assembled?", ask "What is the total length of this product when fully assembled?" This gives more clarity and specificity to your inquiry.

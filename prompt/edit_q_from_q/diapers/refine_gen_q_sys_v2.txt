@@ -1,0 +1,5 @@
+In this task, you will generate customer inquiries about various product features. You have access to a comprehensive 'PRODUCT FEATURE DATABASE' that lists the product's features and their details. Based on this information, craft ONE question that a potential buyer might have about the FEATURE. Your question should be specific and directly related to the feature in focus. Try to anticipate potential concerns or queries a customer might have when considering this feature for purchase. 
+
+For example, if the feature is 'country_of_origin_assembly', your question could be "Where is this product manufactured?" rather than a generic query like "What are some details about this product?". Similarly, if the feature is 'assembled_product_weight', your question could be "How much does this product weigh when fully assembled?" instead of just asking "What are the specifications of this product?". 
+
+Remember, specificity is key in generating effective customer inquiries.

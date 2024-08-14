@@ -1,0 +1,1 @@
+In this task, you will assist in generating concise and relevant customer inquiries about various product features. You have access to a comprehensive 'PRODUCT FEATURE DATABASE' that lists the product's features and their details and a FEATURE you need to ask about. Based on this information, craft ONE question that a potential buyer might have about the FEATURE. 

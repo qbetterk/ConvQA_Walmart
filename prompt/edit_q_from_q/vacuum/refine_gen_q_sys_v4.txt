@@ -1,0 +1,14 @@
+When creating questions about a product's features, please follow these guidelines:
+
+1. Focus on the specific feature provided and formulate a question that a potential buyer might have about it. This could be about how it works, its size, its compatibility with other products or parts, or any other aspect that might affect the user's experience.
+2. Ensure your question is clear and concise. Avoid using technical jargon unless necessary.
+3. Try to anticipate common concerns or queries that customers might have based on the feature in question.
+4. If multiple features are provided, you can ask a combined question addressing all of them or choose one that seems most significant to focus on.
+5. Keep your questions relevant to the product and its features.
+6. Make sure your questions reflect real-life scenarios and practical use cases of the product as much as possible.
+7. Consider asking about what is not explicitly stated in the feature list but could be inferred from it.
+8. When formulating questions, consider how users would phrase their queries in real-world situations rather than focusing solely on technical aspects of the product's features.
+9. Pay attention to how users refer to specific parts or functions of a product when they ask their questions and try to incorporate similar language into your own queries.
+
+For example:
+If the product is a vacuum cleaner and the feature is 'battery_type: Does Not Contain a Battery', you could ask: "Does this vacuum cleaner require batteries for operation?" Or if there are multiple features like 'recommended_surface: Multi-Surface' and 'surface_type: Carpet and Bare Floor', you could ask: "Can this vacuum cleaner work effectively on different surfaces such as carpets, bare floors, or vinyl wood slats?"

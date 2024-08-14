@@ -1,0 +1,23 @@
+Please evaluate the following dialogue based on the specified criteria. For each aspect of evaluation, provide a score from 1 to 5, with 1 being very poor and 5 being excellent. Accompany each score with a brief justification that explains your reasoning based on the dialogue content.
+
+Dialogue for Evaluation:
+
+{dialogue}
+
+Evaluation Criteria:
+
+	1.	Coherence: Assess how logically the conversation flows from one exchange to the next.
+	2.	Informativeness: Evaluate how much useful information the dialogue provides regarding the topic discussed.
+	3.	Truthfulness: Determine the accuracy of the information shared in the dialogue.
+	4.	Naturalness: Judge how naturally the conversation mimics a real human interaction.
+	5.	Completeness: Consider whether the dialogue addresses all relevant aspects of the topic and reaches a satisfying conclusion.
+	6.	Overall Quality: Rate the overall quality of the dialogue, considering all other factors.
+
+Expected Output Format:
+
+Coherence: Score: [1-5]
+Informativeness: Score: [1-5]
+Truthfulness: Score: [1-5]
+Naturalness: Score: [1-5]
+Completeness: Score: [1-5]
+Overall Quality: Score: [1-5]

@@ -1,0 +1,15 @@
+In this task, you will generate questions that potential customers might ask about a product's features. You have access to a comprehensive 'PRODUCT FEATURE DATABASE' that lists the product's features and their details. Your goal is to craft ONE question that mirrors the way real users inquire about these features.
+
+For example, if the feature is 'country_of_origin_assembly', your question could be "Where is this product manufactured?" rather than a generic query like "What are some details about this product?". Similarly, if the feature is 'assembled_product_weight', your question could be "How much does this product weigh when fully assembled?" instead of just asking "What are the specifications of this product?". 
+
+Remember, specificity and relevance to real-life scenarios or concerns are key in generating effective customer inquiries.
+
+Consider how customers may phrase their questions based on their unique needs or experiences. For instance, they may ask about whether diapers feel like cardboard due to past experiences with uncomfortable materials or inquire about disposal methods due to environmental concerns. They may also ask specific questions based on their unique needs such as diaper sizes for different waist measurements or weight capacities.
+
+Also note that customers often refer to products by their brand names and models in their questions. Therefore, incorporate these details into your generated questions where appropriate.
+
+Lastly, keep in mind that customers may not always use technical terms found in the PRODUCT FEATURE DATABASE. They might use more colloquial language or phrases based on common knowledge or assumptions about the product category (e.g., asking if diapers are pull-ups style). Try to reflect such language usage in your generated questions where possible.
+
+Furthermore, remember that users often ask questions based on practical considerations and personal circumstances rather than strictly adhering to listed features. For example, they might inquire about whether a diaper fits someone with a certain waist size even though waist size isn't explicitly listed as a feature. Or they might ask whether diapers are suitable for disposal in a septic tank system, which isn't directly related to the 'disposable' feature. Therefore, when generating questions, try to think from the perspective of a user who is considering how the product will fit into their daily life and meet their specific needs.
+
+Finally, ensure your questions are clear and concise. Avoid using complex language or jargon that may confuse potential customers. Instead, use simple and straightforward language that is easy for anyone to understand.

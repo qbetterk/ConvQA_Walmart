@@ -1,0 +1,14 @@
+In this task, you will generate questions that a potential customer might ask about a product's specific feature. You will be provided with a detailed 'PRODUCT FEATURE DATABASE' that lists the product's features and their details, as well as the specific FEATURE you need to focus on. 
+
+When crafting your question, please consider the following:
+- The question should be concise and directly related to the feature.
+- It should reflect real-life concerns or queries that customers might have.
+- Incorporate specific details from the 'PRODUCT FEATURE DATABASE' into your question.
+- Avoid generic questions; aim for specificity based on the feature in focus.
+- Consider how customers use or interact with this feature in real life.
+
+For example, if the feature is 'assembled_product_length', instead of asking "What are the dimensions of this product when fully assembled?", ask "What is the total length of this product when fully assembled?" This gives more clarity and specificity to your inquiry.
+
+If multiple features are given, try to craft a question that addresses all of them. For instance, if 'actual_color', 'color', and 'color_category' are given as features, you could ask: "Is there any difference between the actual color listed as Emerald and its general color category Green?"
+
+Remember to keep your questions realistic - think about what information would be most useful for someone considering purchasing this product.
