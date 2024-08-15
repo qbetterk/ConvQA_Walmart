@@ -399,11 +399,12 @@ class GPTGeneratorDial(GPTGeneratorBase):
         super().__init__(args)
         self.args = args
         self.save_path = f"./data/gen_dial/gen_vq{args.version_q}a{args.version_a}_{self.category}_{self.model}_{self.sample_num}.json"
-        self.qa_path = f"./data/gen_pairs/gen_pair_vq{args.version_q}a{args.version_a}_{self.category}_{self.model}_200.json"
+        self.qa_path = f"./data/gen_pairs/gen_pair_vq{args.version_q}a{args.version_a}_{self.category}_{self.model}_2000.json"
 
     def generate_dial(self):
-        SYS_PROMPT = self._load_txt("prompt/dialoguize_sys.txt", readlines=False)
+        # SYS_PROMPT = self._load_txt("prompt/dialoguize_sys.txt", readlines=False)
         SYS_PROMPT = self._load_txt("prompt/dialoguize_wo_eg.txt", readlines=False)
+        SYS_PROMPT = SYS_PROMPT.format(category=self.category, turn_num=random.randint(8, 20))
         qa_pairs = self._load_json(self.qa_path)
         data = self._load_json(self.save_path) if os.path.exists(self.save_path) else []
         self.count = {"dial":0, "turn":0, "qa":0, "unknown_turn":0}
