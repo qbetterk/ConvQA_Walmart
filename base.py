@@ -26,15 +26,18 @@ class BaseClass(object):
             self.model="gpt4"
         elif args.model_name_or_path == "gpt-4-turbo":
             self.model="gpt4t"
+        elif args.model_name_or_path == "gpt-4o":
+            self.model="gpt4o"
         elif args.model_name_or_path == "gpt-3.5-turbo":
             self.model="gpt35t"
         elif args.model_name_or_path == "gpt-3.5-turbo-0125":
             self.model="gpt35tnew"
 
-    def _load_json(self, path):
+    def _load_json(self, path, verbose=True):
         if path is None or not os.path.exists(path):
             raise IOError(f"File doe snot exists: {path}")
-        print(f"Loading data from {path} ...")
+        if verbose:
+            print(f"Loading data from {path} ...")
         with open(path) as df:
             data = json.loads(df.read())
         return data

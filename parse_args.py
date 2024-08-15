@@ -12,7 +12,7 @@ def parse_args():
         "--target",
         type=str,
         default="question",
-        choices=["question", "answer"],
+        choices=["question", "answer", "pair", "dial"],
         help="Choose to generate questions or answers",
     )
     parser.add_argument(
@@ -85,7 +85,7 @@ def parse_args():
     parser.add_argument(
         "--top_p",
         type=float,
-        default=0.1,
+        default=1.0,
         help="Maximum decoding length",
     )
     parser.add_argument(
